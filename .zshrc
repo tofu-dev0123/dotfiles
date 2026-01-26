@@ -15,3 +15,11 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 export PATH="$HOME/.local/bin:$PATH"
+
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -lah --icons --git"
+alias tree="eza --tree --icons"
+
+cd() {
+	builtin cd "$@" && ls
+}
