@@ -21,5 +21,7 @@ alias ll="eza -lah --icons --git"
 alias tree="eza --tree --icons"
 
 cd() {
-	builtin cd "$@" && ls
+	builtin cd "$@" && ls -l
 }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
