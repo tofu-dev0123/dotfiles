@@ -45,16 +45,87 @@ require("lazy").setup({
    },
 
    {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    main = "nvim-treesitter.config",
-    opts = {
-      highlight = { enable = true },
+     "nvim-treesitter/nvim-treesitter",
+     build = ":TSUpdate",
+     main = "nvim-treesitter.config",
+     opts = {
+       highlight = { enable = true },
+     },
+   },
+   {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
     },
-  },
+    config = function()
+      local cmp = require("cmp")
+
+      cmp.setup({
+        mapping = cmp.mapping.preset.insert({
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping.select_next_item(),
+          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+        }),
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "buffer" },
+        },
+      })
+     end,
+   },
+
+   {
+     "williamboman/mason.nvim",
+     config = function()
+       require("mason").setup()
+     end,
+   },
+   {
+     "williamboman/mason-lspconfig.nvim",
+     dependencies = { "williamboman/mason.nvim" },
+     config = function()
+       require("mason-lspconfig").setup({
+         ensure_installed = {
+           "pyright",
+           "ts_ls",   -- ← tsserverの新名称
+           "lua_ls",
+         },
+       })
+     end,
+   },
+
+   {
+     "neovim/nvim-lspconfig",
+     config = function()
+
+       -- Python
+       vim.lsp.config("pyright", {})
+       vim.lsp.enable("pyright")
+
+       -- TypeScript / JavaScript
+       vim.lsp.config("ts_ls", {})
+       vim.lsp.enable("ts_ls")
+
+       -- Lua
+       vim.lsp.config("lua_ls", {
+         settings = {
+           Lua = {
+             diagnostics = {
+               globals = { "vim" },
+             },
+           },
+         },
+       })
+       vim.lsp.enable("lua_ls")
+     end,
+   },
 })
 
 vim.opt.termguicolors = true
+
+-- クリップボードとの連携
+vim.opt.clipboard = "unnamedplus"
 
 -- 行番号を表示
 vim.opt.number = true
@@ -75,3 +146,7 @@ vim.cmd [[
 	highlight Normal guibg=none
 	highlight NormalFloat guibg=none
 ]]
+
+
+-- keymap --
+vim.keymap.set("i", "jk", "<Esc>")
