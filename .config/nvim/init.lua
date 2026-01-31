@@ -1,3 +1,6 @@
+-- leader key
+vim.g.mapleader = " "
+
 vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
 
 require("lazy").setup({
@@ -16,15 +19,32 @@ require("lazy").setup({
       })
     end,
   },
+  {
+     "nvim-neo-tree/neo-tree.nvim",
+     branch = "v3.x",
+     dependencies = {
+       "nvim-lua/plenary.nvim",
+       "nvim-tree/nvim-web-devicons",
+       "MunifTanjim/nui.nvim",
+     },
+     config = function()
+       require("neo-tree").setup({
+         filesystem = {
+           filtered_items = {
+             hide_dotfiles = false,
+           },
+         },
+         window = {
+           position = "left",
+           width = 32,
+         },
+       })
 
-  {
-    "nvim-tree/nvim-tree.lua",
-    config = function()
-      require("nvim-tree").setup()
-      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
-    end,
-  },
-  {
+       vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>")
+     end,
+   },
+
+   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     main = "nvim-treesitter.config",

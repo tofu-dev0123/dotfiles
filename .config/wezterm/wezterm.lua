@@ -54,4 +54,24 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
    	}
 end)
 
+
+-- key bind --
+config.keys = {
+	{
+		key = "d",
+		mods = "CMD",
+		action = wezterm.action.SplitHorizontal,
+	},
+  	{
+    		key = "d",
+		mods = "CMD|SHIFT",
+		action = wezterm.action.SplitVertical,
+  	},
+	{
+		key = "w",
+		mods = "CMD",
+		action = wezterm.action.CloseCurrentPane { confirm = true},
+	}
+}
+
 return config
