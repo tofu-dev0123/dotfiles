@@ -1,5 +1,5 @@
 -- カラースキーム適用
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("moonfly")
 
 -- 背景透過設定
 vim.cmd([[
