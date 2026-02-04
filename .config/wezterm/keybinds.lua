@@ -16,7 +16,12 @@ function M.apply(config, wezterm)
 			key = "w",
 			mods = "CMD",
 			action = wezterm.action.CloseCurrentPane { confirm = true },
-		}
+		},
+		{
+			key = "f",
+			mods = "CTRL|CMD",
+			action = wezterm.action.ToggleFullScreen,
+		},
 	}
 end
 
