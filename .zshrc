@@ -19,9 +19,13 @@ export PATH="$HOME/.local/bin:$PATH"
 alias ls="eza --icons --group-directories-first"
 alias ll="eza -lah --icons --git"
 alias tree="eza --tree --icons"
+alias fcd='cd "$(find . -type f | fzf | xargs dirname)"'
+alias dcd='cd "$(find ~ -type d | fzf)"'
 
 cd() {
 	builtin cd "$@" && ls -l
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="$HOME/.npm-global/bin:$PATH"
