@@ -2,7 +2,7 @@ local M = {}
 
 function M.apply(config)
 	config.window_background_opacity = 0.8
-	config.macos_window_background_blur = 10
+        -- config.macos_window_background_blur = 10
 	config.window_decorations = "RESIZE"
 	config.window_frame = {
 		inactive_titlebar_bg = "none",
