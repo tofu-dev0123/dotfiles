@@ -12,30 +12,30 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 
 ```
 .
-├── .config/
-│   ├── nvim/
-│   │   ├── init.lua
-│   │   ├── lazy-lock.json
-│   │   └── lua/
-│   │       ├── core/
-│   │       │   ├── keymaps.lua
-│   │       │   └── options.lua
-│   │       ├── plugins/
-│   │       │   ├── init.lua
-│   │       │   ├── cmp.lua
-│   │       │   ├── colorscheme.lua
-│   │       │   ├── lsp.lua
-│   │       │   ├── lualine.lua
-│   │       │   ├── neo-tree.lua
-│   │       │   └── treesitter.lua
-│   │       └── ui/
-│   │           └── colorscheme.lua
-│   └── wezterm/
-│       ├── wezterm.lua
-│       ├── appearance.lua
-│       ├── keybinds.lua
-│       └── tabs.lua
-├── .zshrc
+├── nvim/
+│   ├── init.lua
+│   ├── lazy-lock.json
+│   └── lua/
+│       ├── core/
+│       │   ├── keymaps.lua
+│       │   └── options.lua
+│       ├── plugins/
+│       │   ├── init.lua
+│       │   ├── cmp.lua
+│       │   ├── colorscheme.lua
+│       │   ├── lsp.lua
+│       │   ├── lualine.lua
+│       │   ├── neo-tree.lua
+│       │   └── treesitter.lua
+│       └── ui/
+│           └── colorscheme.lua
+├── wezterm/
+│   ├── wezterm.lua
+│   ├── appearance.lua
+│   ├── keybinds.lua
+│   └── tabs.lua
+├── zsh/
+│   └── .zshrc
 └── README.md
 ```
 
@@ -60,12 +60,12 @@ git clone https://github.com/<your-username>/dotfiles.git ~/dev/dotfiles
 
 | リポジトリ | リンク先 |
 |---|---|
-| `.config/nvim/` | `~/.config/nvim` |
-| `.config/wezterm/` | `~/.config/wezterm` |
-| `.zshrc` | `~/.zshrc` |
+| `nvim/` | `~/.config/nvim` |
+| `wezterm/` | `~/.config/wezterm` |
+| `zsh/.zshrc` | `~/.zshrc` |
 
 ```sh
-ln -s ~/dev/dotfiles/.config/nvim ~/.config/nvim
-ln -s ~/dev/dotfiles/.config/wezterm ~/.config/wezterm
-ln -s ~/dev/dotfiles/.zshrc ~/.zshrc
+ln -s ~/dev/dotfiles/nvim ~/.config/nvim
+ln -s ~/dev/dotfiles/wezterm ~/.config/wezterm
+ln -s ~/dev/dotfiles/zsh/.zshrc ~/.zshrc
 ```
