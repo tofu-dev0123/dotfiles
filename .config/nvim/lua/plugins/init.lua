@@ -12,6 +12,7 @@ require("lazy").setup({
   { import = "plugins.cmp" },
   { import = "plugins.lsp" },
   { import = "plugins.tabset" },
+  { import = "plugins.telescope" },
 }, {
   checker = { enabled = false },
   change_detection = { notify = false },
