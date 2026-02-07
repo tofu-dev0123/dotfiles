@@ -3,7 +3,7 @@ return {
   config = function()
     require("tabset").setup({
       defaults = {
-        tabwidth = 4,
+        tabwidth = 2,
         expandtab = true,
       },
       languages = {
