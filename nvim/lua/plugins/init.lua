@@ -12,6 +12,7 @@ require("lazy").setup({
   { import = "plugins.neo-tree" },
   { import = "plugins.treesitter" },
   { import = "plugins.cmp" },
+  { import = "plugins.snippets" },
   { import = "plugins.lsp" },
   { import = "plugins.tabset" },
   { import = "plugins.telescope" },
