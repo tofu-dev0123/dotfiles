@@ -17,3 +17,14 @@ opt.wrap = false
 
 -- スクロール余白
 opt.scrolloff = 8
+
+-- 外部で変更されたら自動で検知
+opt.autoread = true
+
+-- カーソル移動・フォーカス復帰時に変更チェック
+vim.api.nvim_create_autocmd(
+  { "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" },
+  {
+    command = "checktime",
+  }
+)
