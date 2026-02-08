@@ -28,3 +28,15 @@ vim.api.nvim_create_autocmd(
     command = "checktime",
   }
 )
+
+-- smartindent / cindent を無効化（Tree-sitter と競合するため）
+opt.smartindent = false
+opt.cindent = false
+
+-- TS / TSX / JSX で Tree-sitter インデントを強制使用
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "typescript", "typescriptreact", "javascriptreact" },
+  callback = function()
+    vim.bo.indentexpr = "nvim_treesitter#indent()"
+  end,
+})
