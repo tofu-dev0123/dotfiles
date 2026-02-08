@@ -6,6 +6,7 @@ return {
     { "<leader>tf", desc = "Toggle float terminal" },
     { "<leader>th", desc = "Toggle horizontal terminal"},
     { "<leader>tv", desc = "Toggle vertical terminal"},
+    { "<leader>gg", desc = "Toggle lazygit" },
   },
   config = function()
     require("toggleterm").setup({
