@@ -2,7 +2,7 @@ return {
   -- Mason
   {
     "williamboman/mason.nvim",
-    cmd = "Mason",
+    lazy = false,
     config = function()
       require("mason").setup()
     end,
@@ -10,6 +10,7 @@ return {
   -- Mason-lspconfig
   {
     "williamboman/mason-lspconfig.nvim",
+    lazy = false,
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup({
