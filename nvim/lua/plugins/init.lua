@@ -16,6 +16,7 @@ require("lazy").setup({
   { import = "plugins.lsp" },
   { import = "plugins.tabset" },
   { import = "plugins.telescope" },
+  { import = "plugins.conform" },
 }, {
   checker = { enabled = false },
   change_detection = { notify = false },

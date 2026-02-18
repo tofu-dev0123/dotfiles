@@ -17,6 +17,7 @@ return {
           "pyright",
           "ts_ls",
           "lua_ls",
+          "terraformls",
         },
       })
     end,
@@ -46,6 +47,10 @@ return {
         },
       })
       vim.lsp.enable("lua_ls")
+
+      -- Terraform
+      vim.lsp.config("terraformls", {})
+      vim.lsp.enable("terraformls")
     end,
   },
 }

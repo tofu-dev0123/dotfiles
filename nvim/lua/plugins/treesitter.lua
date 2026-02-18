@@ -11,6 +11,8 @@ return {
       "typescript",
       "tsx",
       "json",
+      "terraform",
+      "hcl",
     },
     highlight = { enable = true },
     indent = { enable = true },
