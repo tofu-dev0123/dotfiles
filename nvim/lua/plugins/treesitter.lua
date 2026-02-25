@@ -13,6 +13,7 @@ return {
       "json",
       "terraform",
       "hcl",
+      "python",
     },
     highlight = { enable = true },
     indent = { enable = true },

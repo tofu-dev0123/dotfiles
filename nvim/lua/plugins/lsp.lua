@@ -16,6 +16,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "pyright",
+          "ruff",
           "ts_ls",
           "lua_ls",
           "terraformls",
@@ -34,6 +35,10 @@ return {
       -- Python
       vim.lsp.config("pyright", { capabilities = capabilities })
       vim.lsp.enable("pyright")
+
+      -- Ruff (Python lint/format)
+      vim.lsp.config("ruff", { capabilities = capabilities })
+      vim.lsp.enable("ruff")
 
       -- TypeScript / JavaScript
       vim.lsp.config("ts_ls", { capabilities = capabilities })
