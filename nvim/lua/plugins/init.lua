@@ -19,6 +19,7 @@ require("lazy").setup({
   { import = "plugins.conform" },
   { import = "plugins.dap" },
   { import = "plugins.swenv" },
+  { import = "plugins.ruby" },
 }, {
   checker = { enabled = false },
   change_detection = { notify = false },

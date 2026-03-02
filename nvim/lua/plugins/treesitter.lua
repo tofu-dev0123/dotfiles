@@ -14,6 +14,8 @@ return {
       "terraform",
       "hcl",
       "python",
+      "ruby",
+      "eruby",
     },
     highlight = { enable = true },
     indent = { enable = true },
