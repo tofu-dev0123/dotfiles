@@ -1,7 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
-  event = { "BufReadPost", "BufNewFile" },
+  lazy = false,
   main = "nvim-treesitter.config",
   opts = {
     ensure_installed = {
@@ -11,6 +11,11 @@ return {
       "typescript",
       "tsx",
       "json",
+      "terraform",
+      "hcl",
+      "python",
+      "ruby",
+      "eruby",
     },
     highlight = { enable = true },
     indent = { enable = true },
