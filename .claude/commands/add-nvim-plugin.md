@@ -1,7 +1,7 @@
 ---
 description: Neovimプラグインを追加する（Web検索→プラン作成）
 argument-hint: <plugin-name or topic>
-allowed-tools: WebSearch, WebFetch, Read, Glob, EnterPlanMode
+allowed-tools: Agent, EnterPlanMode
 ---
 
 引数 `$ARGUMENTS` を元に Neovim プラグインを追加するための実装プランを作成する。
@@ -17,42 +17,41 @@ allowed-tools: WebSearch, WebFetch, Read, Glob, EnterPlanMode
 
 ## ステップ2A: 特定プラグインモード
 
-`$ARGUMENTS` をプラグイン名として以下の情報をWeb検索・収集する：
+以下を**並列で**実行する：
 
-- GitHubリポジトリのREADME（インストール方法・概要）
-- lazy.nvim 形式の設定例
-- デフォルト・推奨キーマップ
-- 依存プラグイン
+- `$ARGUMENTS` のプラグインについてWebから情報収集する（`nvim-web-research` エージェント）
+- 既存の Neovim 設定の構成・スタイルを調査する（`nvim-codebase-explorer` エージェント）
 
-収集後、ステップ3へ進む。
+両方の結果を受け取ったら、ステップ3へ進む。
 
 ## ステップ2B: テーマ検索モード
 
-1. `"neovim $ARGUMENTS plugins recommended"` などで検索し、推奨プラグインを収集する
-2. 用途別（LSP, formatter, syntax highlight, test runner など）に整理する
-3. `nvim/lua/plugins/` 以下のファイル一覧を確認し、**未導入のプラグインのみ**をリストアップする
-4. 以下のようなチェックリスト形式でユーザーに提示し、追加するプラグインを選んでもらう：
+### フェーズ1: 候補収集（並列実行）
 
-   ```
-   以下のプラグインが見つかりました。追加するものを選んでください：
+以下を**並列で**実行する：
 
-   - [ ] owner/repo-name — 説明（用途: LSP）
-   - [ ] owner/repo-name — 説明（用途: formatter）
-   - [ ] owner/repo-name — 説明（用途: syntax）
-   ```
+- `$ARGUMENTS` に関連する推奨プラグインをWebから収集する（`nvim-web-research` エージェント）
+- 既存の Neovim 設定の構成・スタイルを調査する（`nvim-codebase-explorer` エージェント）
 
-5. ユーザーが選択したプラグインそれぞれについてステップ2Aと同様に情報を収集する
-6. 収集後、ステップ3へ進む
+### フェーズ2: 候補提示・選択
 
-## ステップ3: 既存設定の確認
+両方の結果を受け取ったら、**未導入のプラグインのみ**を以下の形式で提示し、ユーザーに選択を求める：
 
-以下のファイルを読み取り、既存のフォーマット・構成を把握する：
+```
+以下のプラグインが見つかりました。追加するものを選んでください：
 
-- `nvim/lua/plugins/` 以下の既存プラグインファイル（構成の参考）
-- `nvim/lua/core/keymaps.lua`（キーマップの記述スタイル確認）
-- `README.md`（プラグイン一覧テーブルのフォーマット確認）
+- [ ] owner/repo-name — 説明（用途: LSP）
+- [ ] owner/repo-name — 説明（用途: formatter）
+- [ ] owner/repo-name — 説明（用途: syntax）
+```
 
-## ステップ4: プランの作成
+### フェーズ3: 選択プラグインの詳細収集（並列実行）
+
+ユーザーが選択したプラグインそれぞれについて、**並列で** Web から詳細情報を収集する（`nvim-web-research` エージェント）。
+
+全結果を受け取ったら、ステップ3へ進む。
+
+## ステップ3: プランの作成
 
 `EnterPlanMode` を呼び出し、プランモードで以下の実装案を提示する。
 プラグインが複数ある場合はプラグインごとにまとめる。
