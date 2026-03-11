@@ -103,6 +103,10 @@ main() {
     # Zsh
     create_symlink "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
+    # Claude Code
+    create_symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+    create_symlink "$DOTFILES_DIR/claude/commands" "$HOME/.claude/commands"
+
     echo ""
     echo "========================================"
     print_success "セットアップ完了!"
