@@ -1,0 +1,28 @@
+# CLAUDE.md
+
+このファイルは Claude Code がこのリポジトリで作業する際のガイドラインです。
+
+## プロジェクト概要
+
+macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シンボリックリンクで各設定を `~/.config` 等に配置する。
+リポジトリ構成・管理対象ツール・セットアップ手順は README.md を参照。
+
+## 作業上の注意
+
+### 全般
+- コメントや説明は日本語で記述する
+- PR タイトルも日本語で記述する（`/create-pr` コマンドを使用）
+
+### Neovim 設定（`nvim/`）
+- プラグイン設定はすべて `nvim/lua/plugins/` 以下に個別ファイルで管理
+- コアオプションは `nvim/lua/core/options.lua`、キーマップは `nvim/lua/core/keymaps.lua`
+- プラグイン追加時は `nvim/lua/plugins/` に新しい `.lua` ファイルを作成し、README.md のプラグイン一覧も更新する
+
+### Claude Code 設定（`claude/`）
+- カスタムスラッシュコマンドは `claude/commands/` に `.md` ファイルで管理
+- コマンドのフォーマット: YAML フロントマター（`description`, `argument-hint`, `allowed-tools`）+ 本文
+
+## コマンド
+
+- セットアップ: `./setup.sh`
+- PR 作成: `/create-pr [base-branch]`（`claude/commands/create-pr.md` に定義済み）

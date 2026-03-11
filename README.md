@@ -7,6 +7,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 - **Neovim** - テキストエディタ（Lazy.nvim, LSP, Treesitter, Neo-tree 等）
 - **WezTerm** - ターミナルエミュレータ
 - **Zsh** - シェル設定（エイリアス、fzf 連携等）
+- **Claude Code** - AI コーディングアシスタント設定
 
 ## Neovim プラグイン一覧
 
@@ -14,15 +15,22 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 |---|---|---|
 | [lazy.nvim](https://github.com/folke/lazy.nvim) | プラグインマネージャー | `init.lua` |
 | [alpha-nvim](https://github.com/goolord/alpha-nvim) | スタート画面 | `plugins/alpha.lua` |
+| [barbar.nvim](https://github.com/romgrk/barbar.nvim) | タブバー | `plugins/barbar.lua` |
 | [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) | 補完エンジン | `plugins/cmp.lua` |
+| [conform.nvim](https://github.com/stevearc/conform.nvim) | フォーマッター | `plugins/conform.lua` |
+| [nvim-dap](https://github.com/mfussenegger/nvim-dap) | デバッガー | `plugins/dap.lua` |
+| [diffview.nvim](https://github.com/sindrets/diffview.nvim) | Git diff ビューワー | `plugins/diffview.lua` |
 | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | LSP 設定 | `plugins/lsp.lua` |
-| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | シンタックスハイライト | `plugins/treesitter.lua` |
-| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | ファジーファインダー | `plugins/telescope.lua` |
-| [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | ファイルエクスプローラー | `plugins/neo-tree.lua` |
 | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | ステータスライン | `plugins/lualine.lua` |
-| [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | ターミナル | `plugins/toggleterm.lua` |
 | [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | Markdown プレビュー | `plugins/markdown-preview.lua` |
+| [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | ファイルエクスプローラー | `plugins/neo-tree.lua` |
+| [vim-ruby](https://github.com/vim-ruby/vim-ruby) / Ruby 関連 | Ruby 開発サポート | `plugins/ruby.lua` |
+| [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | スニペットエンジン | `plugins/snippets.lua` |
+| [swenv.nvim](https://github.com/AckslD/swenv.nvim) | Python 仮想環境切替 | `plugins/swenv.lua` |
 | [tabset.nvim](https://github.com/FotiadisM/tabset.nvim) | ファイルタイプ別インデント | `plugins/tabset.lua` |
+| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | ファジーファインダー | `plugins/telescope.lua` |
+| [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | ターミナル | `plugins/toggleterm.lua` |
+| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | シンタックスハイライト | `plugins/treesitter.lua` |
 
 ## リポジトリ構成
 
@@ -39,12 +47,19 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 │       ├── plugins/
 │       │   ├── init.lua
 │       │   ├── alpha.lua
+│       │   ├── barbar.lua
 │       │   ├── cmp.lua
 │       │   ├── colorscheme.lua
+│       │   ├── conform.lua
+│       │   ├── dap.lua
+│       │   ├── diffview.lua
 │       │   ├── lsp.lua
 │       │   ├── lualine.lua
 │       │   ├── markdown-preview.lua
 │       │   ├── neo-tree.lua
+│       │   ├── ruby.lua
+│       │   ├── snippets.lua
+│       │   ├── swenv.lua
 │       │   ├── tabset.lua
 │       │   ├── telescope.lua
 │       │   ├── toggleterm.lua
@@ -58,6 +73,10 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 │   └── tabs.lua
 ├── zsh/
 │   └── .zshrc
+├── claude/
+│   ├── settings.json
+│   └── commands/
+│       └── create-pr.md
 └── README.md
 ```
 
@@ -92,6 +111,7 @@ cd ~/dev/dotfiles
 | `nvim/` | `~/.config/nvim` |
 | `wezterm/` | `~/.config/wezterm` |
 | `zsh/.zshrc` | `~/.zshrc` |
+| `claude/` | `~/.claude` |
 
 **機能:**
 - 既存のファイル/ディレクトリがある場合は `.backup.YYYYMMDD_HHMMSS` 形式で自動バックアップ
