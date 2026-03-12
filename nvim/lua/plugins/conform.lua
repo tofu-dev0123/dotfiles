@@ -16,6 +16,7 @@ return {
       python = { "ruff_format" },
       terraform = { "terraform_fmt" },
       ["terraform-vars"] = { "terraform_fmt" },
+      ruby = { "rubocop" },
     },
     format_on_save = {
       timeout_ms = 500,

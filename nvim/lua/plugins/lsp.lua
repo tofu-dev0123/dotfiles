@@ -20,6 +20,7 @@ return {
           "ts_ls",
           "lua_ls",
           "terraformls",
+          "solargraph",
         },
       })
     end,
@@ -60,6 +61,17 @@ return {
       -- Terraform
       vim.lsp.config("terraformls", { capabilities = capabilities })
       vim.lsp.enable("terraformls")
+
+      -- Ruby
+      vim.lsp.config("solargraph", {
+        capabilities = capabilities,
+        settings = {
+          solargraph = {
+            diagnostics = true,
+          },
+        },
+      })
+      vim.lsp.enable("solargraph")
     end,
   },
 }
