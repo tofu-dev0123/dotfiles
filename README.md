@@ -24,13 +24,16 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | ステータスライン | `plugins/lualine.lua` |
 | [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | Markdown プレビュー | `plugins/markdown-preview.lua` |
 | [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | ファイルエクスプローラー | `plugins/neo-tree.lua` |
-| [vim-ruby](https://github.com/vim-ruby/vim-ruby) / Ruby 関連 | Ruby 開発サポート | `plugins/ruby.lua` |
+| [vim-rails](https://github.com/tpope/vim-rails) | Rails サポート | `plugins/ruby.lua` |
+| [vim-endwise](https://github.com/tpope/vim-endwise) | Ruby end 自動補完 | `plugins/ruby.lua` |
+| [vim-test](https://github.com/vim-test/vim-test) | テスト実行 | `plugins/ruby.lua` |
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | スニペットエンジン | `plugins/snippets.lua` |
 | [swenv.nvim](https://github.com/AckslD/swenv.nvim) | Python 仮想環境切替 | `plugins/swenv.lua` |
 | [tabset.nvim](https://github.com/FotiadisM/tabset.nvim) | ファイルタイプ別インデント | `plugins/tabset.lua` |
 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | ファジーファインダー | `plugins/telescope.lua` |
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | ターミナル | `plugins/toggleterm.lua` |
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | シンタックスハイライト | `plugins/treesitter.lua` |
+| [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム | `plugins/colorscheme.lua` |
 
 ## リポジトリ構成
 
@@ -76,7 +79,8 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 ├── claude/
 │   ├── settings.json
 │   └── commands/
-│       └── create-pr.md
+│       ├── create-pr.md
+│       └── update-readme.md
 └── README.md
 ```
 
@@ -111,9 +115,17 @@ cd ~/dev/dotfiles
 | `nvim/` | `~/.config/nvim` |
 | `wezterm/` | `~/.config/wezterm` |
 | `zsh/.zshrc` | `~/.zshrc` |
-| `claude/` | `~/.claude` |
+| `claude/settings.json` | `~/.claude/settings.json` |
+| `claude/commands` | `~/.claude/commands` |
 
 **機能:**
 - 既存のファイル/ディレクトリがある場合は `.backup.YYYYMMDD_HHMMSS` 形式で自動バックアップ
 - `~/.config` ディレクトリがなければ自動作成
 - bash / zsh どちらでも実行可能（POSIX 互換）
+
+## Claude Code カスタムコマンド
+
+| コマンド | 説明 |
+|---|---|
+| `/create-pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
+| `/update-readme` | プロジェクトを調査して README を更新 |
