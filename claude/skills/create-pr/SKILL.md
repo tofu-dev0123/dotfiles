@@ -1,7 +1,8 @@
 ---
-description: PRを自動作成する（タイトル・本文をコミットから自動生成）
+name: create-pr
+description: PRを自動作成する（タイトル・本文をコミットから自動生成）。ユーザーがPR、プルリクエストの作成について言及したときは必ずこのスキルを使う
 argument-hint: [base-branch]
-allowed-tools: Bash
+tools: [Bash]
 ---
 
 以下の手順でGitHub PRを作成してください。

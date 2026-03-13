@@ -1,7 +1,8 @@
 ---
-description: WeztermのWindow背景透過率を設定する（0〜1）
+name: opacity
+description: WeztermのWindow背景透過率を設定する（0〜1）。ユーザーがWeztermの透明度、透過率、opacity設定について言及したときは必ずこのスキルを使う
 argument-hint: <opacity 0.0~1.0>
-allowed-tools: Read, Edit
+tools: [Read, Edit]
 ---
 
 引数 `$ARGUMENTS` を WeztermのWindow背景透過率として設定する。

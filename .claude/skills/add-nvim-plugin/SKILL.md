@@ -1,7 +1,8 @@
 ---
-description: Neovimプラグインを追加する（Web検索→プラン作成）
+name: add-nvim-plugin
+description: Neovimプラグインを追加する（Web検索→プラン作成）。ユーザーがNeovimプラグイン、テーマ、カラースキームの追加・インストールについて言及したときは必ずこのスキルを使う
 argument-hint: <plugin-name or topic>
-allowed-tools: Agent, EnterPlanMode
+tools: [Agent, EnterPlanMode]
 ---
 
 引数 `$ARGUMENTS` を元に Neovim プラグインを追加するための実装プランを作成する。
