@@ -19,10 +19,11 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 - プラグイン追加時は `nvim/lua/plugins/` に新しい `.lua` ファイルを作成し、README.md のプラグイン一覧も更新する
 
 ### Claude Code 設定（`claude/`）
-- カスタムスラッシュコマンドは `claude/commands/` に `.md` ファイルで管理
-- コマンドのフォーマット: YAML フロントマター（`description`, `argument-hint`, `allowed-tools`）+ 本文
+- グローバルスキルは `claude/skills/<name>/SKILL.md` で管理（`~/.claude/skills` へシンボリックリンク）
+- プロジェクトスキルは `.claude/skills/<name>/SKILL.md` で管理
+- スキルのフォーマット: YAML フロントマター（`description`, `argument-hint`, `allowed-tools`）+ 本文
 
 ## コマンド
 
 - セットアップ: `./setup.sh`
-- PR 作成: `/create-pr [base-branch]`（`claude/commands/create-pr.md` に定義済み）
+- PR 作成: `/create-pr [base-branch]`（`claude/skills/create-pr/SKILL.md` に定義済み）
