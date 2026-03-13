@@ -1,6 +1,7 @@
 ---
-description: プロジェクトを調査してREADMEを更新する
-allowed-tools: Agent, Read, Edit, Write, Glob, Grep, Bash, EnterPlanMode, ExitPlanMode
+name: update-readme
+description: プロジェクトを調査してREADMEを更新する。ユーザーがREADMEやドキュメントの更新・作成について言及したときは必ずこのスキルを使う
+tools: [Agent, Read, Edit, Write, Glob, Grep, Bash, EnterPlanMode, ExitPlanMode]
 ---
 
 以下の手順でプロジェクトを調査し、README.md を更新してください。
