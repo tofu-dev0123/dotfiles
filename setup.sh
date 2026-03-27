@@ -106,6 +106,7 @@ main() {
     # Claude Code
     create_symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
     create_symlink "$DOTFILES_DIR/claude/skills" "$HOME/.claude/skills"
+    create_symlink "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
     echo ""
     echo "========================================"
