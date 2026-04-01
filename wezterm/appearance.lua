@@ -6,7 +6,8 @@ function M.apply(config, wezterm)
     "PlemolJP Console NF", -- 日本語フォールバック
   }
   config.font_size = 13.0
-  config.window_background_opacity = 1
+  config.line_height = 1.3
+  config.window_background_opacity = 0.9
   -- config.macos_window_background_blur = 10
   config.window_decorations = "RESIZE"
   config.window_frame = {
