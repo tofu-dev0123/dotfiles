@@ -31,3 +31,4 @@ cd() {
 
 export PATH="$HOME/.npm-global/bin:$PATH"
 eval "$(rbenv init -)"
+eval "$(starship init zsh)"

@@ -103,6 +103,9 @@ main() {
     # Zsh
     create_symlink "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
+    # Starship
+    create_symlink "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
+
     # Claude Code
     create_symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
     create_symlink "$DOTFILES_DIR/claude/skills" "$HOME/.claude/skills"
