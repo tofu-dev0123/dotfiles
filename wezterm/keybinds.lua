@@ -22,6 +22,27 @@ function M.apply(config, wezterm)
 			mods = "CTRL|CMD",
 			action = wezterm.action.ToggleFullScreen,
 		},
+		-- pane 移動
+		{
+			key = "h",
+			mods = "CMD|OPT",
+			action = wezterm.action.ActivatePaneDirection "Left",
+		},
+		{
+			key = "l",
+			mods = "CMD|OPT",
+			action = wezterm.action.ActivatePaneDirection "Right",
+		},
+		{
+			key = "k",
+			mods = "CMD|OPT",
+			action = wezterm.action.ActivatePaneDirection "Up",
+		},
+		{
+			key = "j",
+			mods = "CMD|OPT",
+			action = wezterm.action.ActivatePaneDirection "Down",
+		},
 	}
 end
 
