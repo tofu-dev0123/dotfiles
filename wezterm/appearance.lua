@@ -2,8 +2,8 @@ local M = {}
 
 function M.apply(config, wezterm)
   config.font = wezterm.font_with_fallback {
-    "JetBrains Mono",
-    "HackGen",
+    "Cascadia Code NF",
+    "PlemolJP Console NF", -- 日本語フォールバック
   }
   config.font_size = 13.0
   config.window_background_opacity = 1
