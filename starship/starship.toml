@@ -41,7 +41,7 @@ $character\
 
 # コマンドラインに1行分のスペースを入れない
 add_newline = false
-Command_timeout = 1200
+command_timeout = 1200
 
 # catppuccin-frappeのcolor schemes
 palette = "CatppuccinFrappe"
