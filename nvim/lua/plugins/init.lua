@@ -20,6 +20,7 @@ require("lazy").setup({
   { import = "plugins.dap" },
   { import = "plugins.swenv" },
   { import = "plugins.ruby" },
+  { import = "plugins.illuminate" },
 }, {
   checker = { enabled = false },
   change_detection = { notify = false },
