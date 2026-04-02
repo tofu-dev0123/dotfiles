@@ -34,6 +34,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | ターミナル | `plugins/toggleterm.lua` |
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | シンタックスハイライト | `plugins/treesitter.lua` |
 | [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム | `plugins/colorscheme.lua` |
+| [vim-illuminate](https://github.com/RRethy/vim-illuminate) | カーソル下の単語をハイライト | `plugins/illuminate.lua` |
 
 ## リポジトリ構成
 
@@ -66,7 +67,8 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 │       │   ├── tabset.lua
 │       │   ├── telescope.lua
 │       │   ├── toggleterm.lua
-│       │   └── treesitter.lua
+│       │   ├── treesitter.lua
+│       │   └── illuminate.lua
 │       └── ui/
 │           └── colorscheme.lua
 ├── wezterm/
