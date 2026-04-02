@@ -1,3 +1,4 @@
+export PATH="$HOME/.rbenv/shims:$PATH"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -29,3 +30,5 @@ cd() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH="$HOME/.npm-global/bin:$PATH"
+eval "$(rbenv init -)"
+eval "$(starship init zsh)"

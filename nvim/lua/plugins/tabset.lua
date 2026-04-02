@@ -35,6 +35,10 @@ return {
           tabwidth = 2,
           expandtab = true,
         },
+        terraform = {
+          tabwidth = 2,
+          expandtab = true,
+        },
       },
     })
   end,
