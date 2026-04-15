@@ -86,7 +86,7 @@ main() {
 
     # ~/.config ディレクトリを作成（なければ）
     if [ ! -d "$HOME/.config" ]; then
-        print_info "~/.config ディレクトリを作成"
+        print_info "$HOME/.config ディレクトリを作成"
         mkdir -p "$HOME/.config"
     fi
 
