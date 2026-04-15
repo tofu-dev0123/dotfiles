@@ -11,7 +11,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 
 ### 全般
 - コメントや説明は日本語で記述する
-- PR タイトルも日本語で記述する（`/create-pr` コマンドを使用）
+- PR タイトルも日本語で記述する（`/pr` コマンドを使用）
 
 ### Neovim 設定（`nvim/`）
 - プラグイン設定はすべて `nvim/lua/plugins/` 以下に個別ファイルで管理
@@ -19,10 +19,12 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 - プラグイン追加時は `nvim/lua/plugins/` に新しい `.lua` ファイルを作成し、README.md のプラグイン一覧も更新する
 
 ### Claude Code 設定（`claude/`）
-- カスタムスラッシュコマンドは `claude/commands/` に `.md` ファイルで管理
-- コマンドのフォーマット: YAML フロントマター（`description`, `argument-hint`, `allowed-tools`）+ 本文
+- グローバルスキルは `claude/skills/<name>/SKILL.md` で管理（`~/.claude/skills` へシンボリックリンク）
+- プロジェクトスキルは `.claude/skills/<name>/SKILL.md` で管理
+- スキルのフォーマット: YAML フロントマター（`description`, `argument-hint`, `allowed-tools`）+ 本文
 
 ## コマンド
 
 - セットアップ: `./setup.sh`
-- PR 作成: `/create-pr [base-branch]`（`claude/commands/create-pr.md` に定義済み）
+- PR 作成: `/pr [base-branch]`（`claude/skills/pr/SKILL.md` に定義済み）
+- Issue 作成: `/issue [topic]`（`claude/skills/issue/SKILL.md` に定義済み）
