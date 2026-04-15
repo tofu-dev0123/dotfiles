@@ -13,6 +13,27 @@ function M.apply(config, wezterm)
 	local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 	local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
+	wezterm.on("update-right-status", function(window, pane)
+		local date = wezterm.strftime("%m/%d %H:%M")
+		local background = "#5c6d74"
+		local foreground = "#FFFFFF"
+		local edge_background = "none"
+		local ROUNDED_LEFT = utf8.char(0xe0b6)
+		local ROUNDED_RIGHT = utf8.char(0xe0b4)
+		window:set_right_status(wezterm.format({
+			{ Background = { Color = edge_background } },
+			{ Foreground = { Color = background } },
+			{ Text = ROUNDED_LEFT },
+			{ Background = { Color = background } },
+			{ Foreground = { Color = foreground } },
+			{ Text = " " .. date .. " " },
+			{ Background = { Color = edge_background } },
+			{ Foreground = { Color = background } },
+			{ Text = ROUNDED_RIGHT },
+			{ Text = "     " },
+		}))
+	end)
+
 	wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 		local background = "#5c6d74"
 		local foreground = "#FFFFFF"

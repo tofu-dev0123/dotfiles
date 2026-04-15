@@ -1,11 +1,11 @@
 ---
-name: create-pr
-description: PRを自動作成する（タイトル・本文をコミットから自動生成）。ユーザーがPR、プルリクエストの作成について言及したときは必ずこのスキルを使う
+name: f-create-pr
+description: ForgejoリポジトリにPRを自動作成する（タイトル・本文をコミットから自動生成）。ユーザーがForgejo向けのPR、プルリクエストの作成について言及したときは必ずこのスキルを使う
 argument-hint: [base-branch]
 tools: [Bash]
 ---
 
-以下の手順でGitHub PRを作成してください。
+以下の手順でForgejo PRを作成してください。CLIは `tea` を使用します。
 
 ## 手順
 
@@ -24,6 +24,6 @@ tools: [Bash]
 
 4. `git push -u origin <current-branch>` でブランチをリモートにプッシュする
 
-5. `gh pr create --base <base-branch> --title "<タイトル>" --body "<本文>"` でPRを作成する
+5. `tea pulls create --base <base-branch> --title "<タイトル>" --description "<本文>"` でPRを作成する
 
 6. 作成されたPRのURLを表示する

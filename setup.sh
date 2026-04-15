@@ -86,7 +86,7 @@ main() {
 
     # ~/.config ディレクトリを作成（なければ）
     if [ ! -d "$HOME/.config" ]; then
-        print_info "~/.config ディレクトリを作成"
+        print_info "$HOME/.config ディレクトリを作成"
         mkdir -p "$HOME/.config"
     fi
 
@@ -110,6 +110,7 @@ main() {
     create_symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
     create_symlink "$DOTFILES_DIR/claude/skills" "$HOME/.claude/skills"
     create_symlink "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+    create_symlink "$DOTFILES_DIR/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
     echo ""
     echo "========================================"

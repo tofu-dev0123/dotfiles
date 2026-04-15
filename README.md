@@ -7,6 +7,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 - **Neovim** - テキストエディタ（Lazy.nvim, LSP, Treesitter, Neo-tree 等）
 - **WezTerm** - ターミナルエミュレータ
 - **Zsh** - シェル設定（エイリアス、fzf 連携等）
+- **Starship** - プロンプト設定
 - **Claude Code** - AI コーディングアシスタント設定
 
 ## Neovim プラグイン一覧
@@ -34,12 +35,19 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | ターミナル | `plugins/toggleterm.lua` |
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | シンタックスハイライト | `plugins/treesitter.lua` |
 | [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム | `plugins/colorscheme.lua` |
+| [vim-illuminate](https://github.com/RRethy/vim-illuminate) | カーソル下の単語をハイライト | `plugins/illuminate.lua` |
 
 ## リポジトリ構成
 
 ```
 .
 ├── setup.sh              # セットアップスクリプト
+├── .luacheckrc           # Lua linter 設定
+├── .github/
+│   └── workflows/
+│       └── ci.yml        # GitHub Actions CI
+├── .claude/
+│   └── skills/           # プロジェクト固有スキル
 ├── nvim/
 │   ├── init.lua
 │   ├── lazy-lock.json
@@ -50,23 +58,8 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 │       ├── plugins/
 │       │   ├── init.lua
 │       │   ├── alpha.lua
-│       │   ├── barbar.lua
-│       │   ├── cmp.lua
-│       │   ├── colorscheme.lua
-│       │   ├── conform.lua
-│       │   ├── dap.lua
-│       │   ├── diffview.lua
-│       │   ├── lsp.lua
-│       │   ├── lualine.lua
-│       │   ├── markdown-preview.lua
-│       │   ├── neo-tree.lua
-│       │   ├── ruby.lua
-│       │   ├── snippets.lua
-│       │   ├── swenv.lua
-│       │   ├── tabset.lua
-│       │   ├── telescope.lua
-│       │   ├── toggleterm.lua
-│       │   └── treesitter.lua
+│       │   ├── ...
+│       │   └── illuminate.lua
 │       └── ui/
 │           └── colorscheme.lua
 ├── wezterm/
@@ -76,12 +69,18 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 │   └── tabs.lua
 ├── zsh/
 │   └── .zshrc
-├── claude/
-│   ├── settings.json
-│   └── commands/
-│       ├── create-pr.md
-│       └── update-readme.md
-└── README.md
+├── starship/
+│   └── starship.toml
+└── claude/
+    ├── settings.json
+    ├── CLAUDE.md
+    ├── statusline-command.sh
+    └── skills/            # Claude Code カスタムスキル
+        ├── commit/
+        ├── pr/
+        ├── issue/
+        ├── release/
+        └── ...
 ```
 
 ## セットアップ
@@ -91,7 +90,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 [Homebrew](https://brew.sh/) を使用してインストールします。
 
 ```sh
-brew install neovim eza fzf
+brew install neovim eza fzf starship
 brew install --cask wezterm
 ```
 
@@ -115,17 +114,38 @@ cd ~/dev/dotfiles
 | `nvim/` | `~/.config/nvim` |
 | `wezterm/` | `~/.config/wezterm` |
 | `zsh/.zshrc` | `~/.zshrc` |
+| `starship/starship.toml` | `~/.config/starship.toml` |
 | `claude/settings.json` | `~/.claude/settings.json` |
-| `claude/commands` | `~/.claude/commands` |
+| `claude/skills` | `~/.claude/skills` |
+| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
 
 **機能:**
 - 既存のファイル/ディレクトリがある場合は `.backup.YYYYMMDD_HHMMSS` 形式で自動バックアップ
 - `~/.config` ディレクトリがなければ自動作成
 - bash / zsh どちらでも実行可能（POSIX 互換）
 
-## Claude Code カスタムコマンド
+## CI
 
-| コマンド | 説明 |
+GitHub Actions で以下のチェックを自動実行します（PR・main push 時）。
+
+| ジョブ | 内容 |
 |---|---|
-| `/create-pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
+| ShellCheck | `setup.sh` の静的解析 |
+| Luacheck | `nvim/lua/` 配下の Lua ファイル解析 |
+| SKILL.md Validation | `claude/skills/**/SKILL.md` のフロントマター検証 |
+| Symlink Source Check | `setup.sh` が参照するファイル・ディレクトリの存在確認 |
+
+## Claude Code カスタムスキル
+
+| スキル | 説明 |
+|---|---|
+| `/commit` | 差分を解析して日本語コミットメッセージを生成・実行 |
+| `/pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
+| `/issue [topic]` | GitHub Issue を作成（ヒアリング形式） |
+| `/release` | リリース処理を自動化（ブランチ作成・マージ・タグ付与） |
+| `/f-create-pr` | Forgejo リポジトリに PR を自動作成 |
+| `/f-create-issue` | Forgejo リポジトリに Issue を作成 |
 | `/update-readme` | プロジェクトを調査して README を更新 |
+| `/setup-claude-md` | インタビュー形式で CLAUDE.md を対話的に作成 |
+| `/check` | CI と同等のローカルチェックを実行 |
