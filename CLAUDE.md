@@ -27,3 +27,4 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 
 - セットアップ: `./setup.sh`
 - PR 作成: `/pr [base-branch]`（`claude/skills/pr/SKILL.md` に定義済み）
+- Issue 作成: `/issue [topic]`（`claude/skills/issue/SKILL.md` に定義済み）
