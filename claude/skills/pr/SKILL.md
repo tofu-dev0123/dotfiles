@@ -1,5 +1,5 @@
 ---
-name: create-pr
+name: pr
 description: PRを自動作成する（タイトル・本文をコミットから自動生成）。ユーザーがPR、プルリクエストの作成について言及したときは必ずこのスキルを使う
 argument-hint: [base-branch]
 tools: [Bash]

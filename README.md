@@ -129,5 +129,5 @@ cd ~/dev/dotfiles
 
 | コマンド | 説明 |
 |---|---|
-| `/create-pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
+| `/pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
 | `/update-readme` | プロジェクトを調査して README を更新 |

@@ -11,7 +11,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 
 ### 全般
 - コメントや説明は日本語で記述する
-- PR タイトルも日本語で記述する（`/create-pr` コマンドを使用）
+- PR タイトルも日本語で記述する（`/pr` コマンドを使用）
 
 ### Neovim 設定（`nvim/`）
 - プラグイン設定はすべて `nvim/lua/plugins/` 以下に個別ファイルで管理
@@ -26,4 +26,4 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 ## コマンド
 
 - セットアップ: `./setup.sh`
-- PR 作成: `/create-pr [base-branch]`（`claude/skills/create-pr/SKILL.md` に定義済み）
+- PR 作成: `/pr [base-branch]`（`claude/skills/pr/SKILL.md` に定義済み）
