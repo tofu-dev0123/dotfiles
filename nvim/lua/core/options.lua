@@ -13,7 +13,8 @@ opt.relativenumber = true
 opt.cursorline = true
 
 -- 折り返しをわかりやすく表示
-opt.wrap = false
+opt.wrap = true
+opt.linebreak = true -- 単語の途中で折り返さない
 
 -- スクロール余白
 opt.scrolloff = 8
