@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 export PATH="$HOME/.rbenv/shims:$PATH"
 
 # >>> conda initialize >>>
@@ -27,6 +28,7 @@ cd() {
 	builtin cd "$@" && ls -l
 }
 
+# shellcheck source=/dev/null
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH="$HOME/.npm-global/bin:$PATH"
