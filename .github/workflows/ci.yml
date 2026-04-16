@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: '.'
+          severity: warning
+
+  luacheck:
+    name: Luacheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install luacheck
+        run: |
+          sudo apt-get install -y luarocks
+          sudo luarocks install luacheck
+      - name: Run luacheck
+        run: luacheck nvim/lua/
+
+  skill-validation:
+    name: SKILL.md Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate SKILL.md frontmatter
+        run: |
+          failed=0
+          while IFS= read -r file; do
+            # フロントマターの開始確認
+            if ! head -1 "$file" | grep -q '^---$'; then
+              echo "ERROR: フロントマターがありません: $file"
+              failed=1
+              continue
+            fi
+            # name フィールドの確認
+            if ! awk '/^---$/{f++} f==1' "$file" | grep -q '^name:'; then
+              echo "ERROR: name フィールドがありません: $file"
+              failed=1
+            fi
+            # description フィールドの確認
+            if ! awk '/^---$/{f++} f==1' "$file" | grep -q '^description:'; then
+              echo "ERROR: description フィールドがありません: $file"
+              failed=1
+            fi
+          done < <(find claude/skills -name 'SKILL.md')
+          exit $failed
+
+  symlink-check:
+    name: Symlink Source Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check symlink source files exist
+        run: |
+          failed=0
+          paths=(
+            "nvim"
+            "wezterm"
+            "zsh/.zshrc"
+            "starship/starship.toml"
+            "claude/settings.json"
+            "claude/skills"
+            "claude/CLAUDE.md"
+            "claude/statusline-command.sh"
+          )
+          for path in "${paths[@]}"; do
+            if [ ! -e "$path" ]; then
+              echo "ERROR: 存在しません: $path"
+              failed=1
+            else
+              echo "OK: $path"
+            fi
+          done
+          exit $failed
