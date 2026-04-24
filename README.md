@@ -144,8 +144,8 @@ GitHub Actions で以下のチェックを自動実行します（PR・main push
 | `/pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
 | `/issue [topic]` | GitHub Issue を作成（ヒアリング形式） |
 | `/release` | リリース処理を自動化（ブランチ作成・マージ・タグ付与） |
-| `/f-create-pr` | Forgejo リポジトリに PR を自動作成 |
-| `/f-create-issue` | Forgejo リポジトリに Issue を作成 |
+| `/f-pr` | Forgejo リポジトリに PR を自動作成 |
+| `/f-issue` | Forgejo リポジトリに Issue を作成 |
 | `/update-readme` | プロジェクトを調査して README を更新 |
 | `/setup-claude-md` | インタビュー形式で CLAUDE.md を対話的に作成 |
 | `/check` | CI と同等のローカルチェックを実行 |

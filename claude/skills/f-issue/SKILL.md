@@ -1,5 +1,5 @@
 ---
-name: f-create-issue
+name: f-issue
 description: ForgejoリポジトリにIssueを作成する。ユーザーがForgejo向けのIssue、課題、バグ報告の作成について言及したときは必ずこのスキルを使う
 argument-hint: "[topic]"
 tools: [Bash]
