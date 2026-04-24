@@ -143,6 +143,7 @@ GitHub Actions で以下のチェックを自動実行します（PR・main push
 | `/commit` | 差分を解析して日本語コミットメッセージを生成・実行 |
 | `/pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
 | `/issue [topic]` | GitHub Issue を作成（ヒアリング形式） |
+| `/issues` | GitHub のオープン Issue を一覧表示・選択して詳細を確認（実装モードで feature/issue#&lt;番号&gt; ブランチを作成） |
 | `/release` | リリース処理を自動化（ブランチ作成・マージ・タグ付与） |
 | `/f-pr` | Forgejo リポジトリに PR を自動作成 |
 | `/f-issue` | Forgejo リポジトリに Issue を作成 |
