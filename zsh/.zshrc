@@ -1,4 +1,7 @@
 # shellcheck shell=bash
+# 履歴は XDG_STATE_HOME 配下に分離（HISTFILE は対話シェル固有のため .zshrc に置く）
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
+
 export PATH="$HOME/.rbenv/shims:$PATH"
 
 # >>> conda initialize >>>

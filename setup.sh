@@ -101,7 +101,13 @@ main() {
     create_symlink "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
 
     # Zsh
-    create_symlink "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
+    # .zshenv は zsh 仕様で $HOME 直下がハードコード
+    create_symlink "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
+    # .zprofile / .zshrc は ZDOTDIR ($XDG_CONFIG_HOME/zsh) 配下から読まれる
+    create_symlink "$DOTFILES_DIR/zsh/.zprofile" "$HOME/.config/zsh/.zprofile"
+    create_symlink "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.config/zsh/.zshrc"
+    # 履歴ファイルの親ディレクトリを事前作成
+    mkdir -p "$HOME/.local/state/zsh"
 
     # Starship
     create_symlink "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
