@@ -10,3 +10,6 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 
 # zsh 本体の設定ファイル探索先を XDG 配下に寄せる
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+# less の履歴を保存しない（XDG 化のため $HOME 直下の .lesshst を発生させない）
+export LESSHISTFILE="-"

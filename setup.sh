@@ -112,6 +112,9 @@ main() {
     # Starship
     create_symlink "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 
+    # Git
+    create_symlink "$DOTFILES_DIR/git/config" "$HOME/.config/git/config"
+
     # Claude Code
     create_symlink "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
     create_symlink "$DOTFILES_DIR/claude/skills" "$HOME/.claude/skills"
