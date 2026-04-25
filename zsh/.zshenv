@@ -13,3 +13,9 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # less の履歴を保存しない（XDG 化のため $HOME 直下の .lesshst を発生させない）
 export LESSHISTFILE="-"
+
+# REPL/CLI 履歴を XDG_STATE_HOME 配下に予防的に振る
+# （ホストでこれらのツールを使う場面が出てきても $HOME 直下に履歴が生成されないようにする）
+export MYSQL_HISTFILE="$XDG_STATE_HOME/mysql/history"
+export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite/history"
+export NODE_REPL_HISTORY="$XDG_STATE_HOME/node/repl_history"
