@@ -16,8 +16,8 @@ cd() {
 	builtin cd "$@" && ls -l
 }
 
-# shellcheck source=/dev/null
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf シェル統合（キーバインド・補完を有効化）
+eval "$(fzf --zsh)"
 
 export PATH="$HOME/.npm-global/bin:$PATH"
 eval "$(rbenv init -)"
