@@ -19,3 +19,8 @@ export LESSHISTFILE="-"
 export MYSQL_HISTFILE="$XDG_STATE_HOME/mysql/history"
 export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite/history"
 export NODE_REPL_HISTORY="$XDG_STATE_HOME/node/repl_history"
+
+# 言語ランタイム/CLI のキャッシュ・設定を XDG 配下に
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
+export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
