@@ -1,20 +1,8 @@
 # shellcheck shell=bash
-export PATH="$HOME/.rbenv/shims:$PATH"
+# 履歴は XDG_STATE_HOME 配下に分離（HISTFILE は対話シェル固有のため .zshrc に置く）
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+export PATH="$HOME/.rbenv/shims:$PATH"
 
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -28,8 +16,8 @@ cd() {
 	builtin cd "$@" && ls -l
 }
 
-# shellcheck source=/dev/null
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf シェル統合（キーバインド・補完を有効化）
+eval "$(fzf --zsh)"
 
 export PATH="$HOME/.npm-global/bin:$PATH"
 eval "$(rbenv init -)"
