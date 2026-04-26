@@ -39,6 +39,9 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 
 ## リポジトリ構成
 
+各パッケージディレクトリ内は `$HOME` の配置先をそのまま反映する **HOME ミラー型**で構成されています。
+リポジトリ内のパスがそのまま symlink 先のパスになります。
+
 ```
 .
 ├── setup.sh              # セットアップスクリプト
@@ -47,41 +50,52 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 │   └── workflows/
 │       └── ci.yml        # GitHub Actions CI
 ├── .claude/
+│   ├── agents/           # プロジェクト固有エージェント
 │   └── skills/           # プロジェクト固有スキル
 ├── nvim/
-│   ├── init.lua
-│   ├── lazy-lock.json
-│   └── lua/
-│       ├── core/
-│       │   ├── keymaps.lua
-│       │   └── options.lua
-│       ├── plugins/
-│       │   ├── init.lua
-│       │   ├── alpha.lua
-│       │   ├── ...
-│       │   └── illuminate.lua
-│       └── ui/
-│           └── colorscheme.lua
+│   └── .config/nvim/             → ~/.config/nvim/
+│       ├── init.lua
+│       ├── lazy-lock.json
+│       └── lua/
+│           ├── core/             # keymaps.lua / options.lua
+│           ├── plugins/          # 各プラグイン定義
+│           └── ui/               # colorscheme.lua
 ├── wezterm/
-│   ├── wezterm.lua
-│   ├── appearance.lua
-│   ├── keybinds.lua
-│   └── tabs.lua
+│   └── .config/wezterm/          → ~/.config/wezterm/
+│       ├── wezterm.lua
+│       ├── appearance.lua
+│       ├── keybinds.lua
+│       └── tabs.lua
 ├── zsh/
-│   └── .zshrc
+│   ├── .zshenv                   → ~/.zshenv
+│   └── .config/zsh/              → ~/.config/zsh/
+│       ├── .zprofile
+│       └── .zshrc
 ├── starship/
-│   └── starship.toml
+│   └── .config/starship.toml     → ~/.config/starship.toml
+├── git/
+│   └── .config/git/              → ~/.config/git/
+│       ├── config
+│       └── ignore
 └── claude/
-    ├── settings.json
-    ├── CLAUDE.md
-    ├── statusline-command.sh
-    └── skills/            # Claude Code カスタムスキル
-        ├── commit/
-        ├── pr/
-        ├── issue/
-        ├── release/
-        └── ...
+    └── .claude/                  # ※ ~/.claude/ 全体は symlink せず、配下を個別にリンク
+        ├── settings.json         → ~/.claude/settings.json
+        ├── CLAUDE.md             → ~/.claude/CLAUDE.md
+        ├── best-practice.md      # CLAUDE.md から @./ で参照
+        ├── statusline-command.sh → ~/.claude/statusline-command.sh
+        └── skills/               → ~/.claude/skills/
+            ├── commit/
+            ├── pr/
+            ├── issue/
+            ├── release/
+            └── ...
 ```
+
+### ミラー型構造の利点
+
+- ディレクトリ構造が配置先を表現する（マッピング情報をスクリプトから排除）
+- 将来 [home-manager](https://nix-community.github.io/home-manager/) に移行する際、`xdg.configFile.<name>.source = ./<pkg>/.config/<name>` のように直接参照できる
+- GNU Stow でも `stow nvim zsh git` だけで動作する構造
 
 ## セットアップ
 
@@ -107,23 +121,34 @@ cd ~/dev/dotfiles
 ./setup.sh
 ```
 
-セットアップスクリプトは以下を自動的に行います：
+セットアップスクリプトは以下の symlink を作成します（リポジトリ内のパスがそのまま `$HOME` 配下のパスになる）：
 
 | ソース | リンク先 |
 |---|---|
-| `nvim/` | `~/.config/nvim` |
-| `wezterm/` | `~/.config/wezterm` |
-| `zsh/.zshrc` | `~/.zshrc` |
-| `starship/starship.toml` | `~/.config/starship.toml` |
-| `claude/settings.json` | `~/.claude/settings.json` |
-| `claude/skills` | `~/.claude/skills` |
-| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
+| `nvim/.config/nvim` | `~/.config/nvim` |
+| `wezterm/.config/wezterm` | `~/.config/wezterm` |
+| `starship/.config/starship.toml` | `~/.config/starship.toml` |
+| `zsh/.zshenv` | `~/.zshenv` |
+| `zsh/.config/zsh` | `~/.config/zsh` |
+| `git/.config/git` | `~/.config/git` |
+| `claude/.claude/settings.json` | `~/.claude/settings.json` |
+| `claude/.claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `claude/.claude/skills` | `~/.claude/skills` |
+| `claude/.claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
+
+**サブコマンド:**
+
+```sh
+./setup.sh                 # symlink を作成する
+./setup.sh --dry-run       # 実行せずに何をするか表示する
+./setup.sh --clean-backups # 既存の .backup.* を列挙して削除する
+```
 
 **機能:**
-- 既存のファイル/ディレクトリがある場合は `.backup.YYYYMMDD_HHMMSS` 形式で自動バックアップ
-- `~/.config` ディレクトリがなければ自動作成
-- bash / zsh どちらでも実行可能（POSIX 互換）
+- 既存 symlink は上書き（idempotent）
+- 既存の**実体ファイル**がある場合は安全のためエラーで停止（手動で退避してから再実行）
+- 親ディレクトリと `~/.local/state/zsh` を自動作成
+- bash / zsh / sh どちらでも実行可能（POSIX 互換）
 
 ## CI
 
