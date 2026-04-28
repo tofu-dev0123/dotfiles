@@ -35,7 +35,6 @@ DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 LINKS="
 nvim/.config/nvim
 wezterm/.config/wezterm
-starship/.config/starship.toml
 zsh/.zshenv
 zsh/.config/zsh
 git/.config/git

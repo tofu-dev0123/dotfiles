@@ -1,2 +1,9 @@
 # macOS
 .DS_Store
+
+# Nix
+result
+result-*
+
+# direnv (Phase 4 で導入予定だが先回り)
+.direnv/

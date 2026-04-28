@@ -10,6 +10,18 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 - **Starship** - プロンプト設定
 - **Claude Code** - AI コーディングアシスタント設定
 
+## セットアップ方式
+
+各ツールは以下のいずれかの方式で `$HOME` 配下に配置されます。
+home-manager (Nix) への移行を段階的に進めており、Issue [#42](https://github.com/tofu-dev0123/dotfiles/issues/42) 以降で順次切り替え中です。
+
+| ツール | 管理方式 |
+|---|---|
+| Starship | home-manager (`mkOutOfStoreSymlink`) |
+| Neovim / WezTerm / Zsh / Git / Claude Code | `setup.sh`（symlink） |
+
+新規マシン構築・既存マシンでも、後述の「セットアップ」では **両方の手順を直列に実行** します（二者択一ではありません）。
+
 ## Neovim プラグイン一覧
 
 | プラグイン | 説明 | 設定ファイル |
@@ -99,35 +111,66 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 
 ## セットアップ
 
-### 1. 必要なツールのインストール
+セットアップは **(A) home-manager** と **(B) `./setup.sh`** の 2 段階で行います。両方とも実行してください。
 
-[Homebrew](https://brew.sh/) を使用してインストールします。
+### 0. 共通: 必要なツールのインストールとリポジトリ取得
+
+[Homebrew](https://brew.sh/) を使用してインストールします（`starship` は home-manager 側で別途扱うため除外）。
 
 ```sh
-brew install neovim eza fzf starship
+brew install neovim eza fzf
 brew install --cask wezterm
 ```
 
-### 2. リポジトリのクローン
+リポジトリをクローン:
 
 ```sh
 git clone https://github.com/<your-username>/dotfiles.git ~/dev/dotfiles
+cd ~/dev/dotfiles
 ```
 
-### 3. セットアップスクリプトの実行
+### (A) home-manager セットアップ
+
+`starship` は home-manager 経由で配置されます。
+
+#### A-1. Nix のインストール
+
+[Determinate Systems Installer](https://determinate.systems/posts/determinate-nix-installer/) を推奨します。
 
 ```sh
-cd ~/dev/dotfiles
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+```
+
+#### A-2. 既存 symlink の退避（既存マシンの初回切替時のみ）
+
+旧 `setup.sh` で張られた symlink が残っていると home-manager が「foreign file」として失敗します。初回のみ手動で削除してください。
+
+```sh
+rm -f ~/.config/starship.toml
+```
+
+#### A-3. home-manager の実行
+
+```sh
+nix run home-manager/master -- switch --flake .#komusan
+```
+
+`~/.config/starship.toml` がリポジトリ実体への symlink として配置されます（`mkOutOfStoreSymlink` で生成）。
+
+### (B) `./setup.sh` 実行
+
+残りのツール（Neovim / WezTerm / Zsh / Git / Claude Code）の symlink を作成します。
+
+```sh
 ./setup.sh
 ```
 
-セットアップスクリプトは以下の symlink を作成します（リポジトリ内のパスがそのまま `$HOME` 配下のパスになる）：
+セットアップスクリプトは以下の symlink を作成します：
 
 | ソース | リンク先 |
 |---|---|
 | `nvim/.config/nvim` | `~/.config/nvim` |
 | `wezterm/.config/wezterm` | `~/.config/wezterm` |
-| `starship/.config/starship.toml` | `~/.config/starship.toml` |
 | `zsh/.zshenv` | `~/.zshenv` |
 | `zsh/.config/zsh` | `~/.config/zsh` |
 | `git/.config/git` | `~/.config/git` |
@@ -135,6 +178,8 @@ cd ~/dev/dotfiles
 | `claude/.claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/.claude/skills` | `~/.claude/skills` |
 | `claude/.claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
+
+> Starship (`~/.config/starship.toml`) は home-manager 経由で配置されます（上記 (A) を参照）。
 
 **サブコマンド:**
 
