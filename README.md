@@ -12,15 +12,14 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 
 ## セットアップ方式
 
-各ツールは以下のいずれかの方式で `$HOME` 配下に配置されます。
-home-manager (Nix) への移行を段階的に進めており、Issue [#42](https://github.com/tofu-dev0123/dotfiles/issues/42) 以降で順次切り替え中です。
+全 dotfiles は home-manager (Nix) の `mkOutOfStoreSymlink` で `$HOME` 配下に配置されます。
+home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](https://github.com/tofu-dev0123/dotfiles/issues/51)) で全 dotfiles の symlink 化が完了しました。
 
 | ツール | 管理方式 |
 |---|---|
-| Starship | home-manager (`mkOutOfStoreSymlink`) |
-| Neovim / WezTerm / Zsh / Git / Claude Code | `setup.sh`（symlink） |
+| Starship / Neovim / WezTerm / Zsh / Git / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
 
-新規マシン構築・既存マシンでも、後述の「セットアップ」では **両方の手順を直列に実行** します（二者択一ではありません）。
+`setup.sh` は zsh の state ディレクトリ事前作成のみを担当する補助スクリプトとして残っており、Phase 4 ([#54](https://github.com/tofu-dev0123/dotfiles/issues/54)) で廃止予定です。
 
 ## Neovim プラグイン一覧
 
@@ -56,7 +55,12 @@ home-manager (Nix) への移行を段階的に進めており、Issue [#42](http
 
 ```
 .
-├── setup.sh              # セットアップスクリプト
+├── flake.nix             # home-manager の flake 入口
+├── flake.lock            # flake 依存ロック
+├── home.nix              # home-manager 設定本体
+├── modules/
+│   └── dotfiles.nix      # 全 dotfiles の symlink 定義（mkOutOfStoreSymlink）
+├── setup.sh              # 補助スクリプト（zsh state ディレクトリ作成）
 ├── .luacheckrc           # Lua linter 設定
 ├── .github/
 │   └── workflows/
@@ -106,12 +110,12 @@ home-manager (Nix) への移行を段階的に進めており、Issue [#42](http
 ### ミラー型構造の利点
 
 - ディレクトリ構造が配置先を表現する（マッピング情報をスクリプトから排除）
-- 将来 [home-manager](https://nix-community.github.io/home-manager/) に移行する際、`xdg.configFile.<name>.source = ./<pkg>/.config/<name>` のように直接参照できる
+- [home-manager](https://nix-community.github.io/home-manager/) で `xdg.configFile.<name>.source = ./<pkg>/.config/<name>` のように直接参照できる
 - GNU Stow でも `stow nvim zsh git` だけで動作する構造
 
 ## セットアップ
 
-セットアップは **(A) home-manager** と **(B) `./setup.sh`** の 2 段階で行います。両方とも実行してください。
+全 dotfiles は home-manager 経由で配置されます。
 
 ### 0. 共通: 必要なツールのインストールとリポジトリ取得
 
@@ -129,11 +133,7 @@ git clone https://github.com/<your-username>/dotfiles.git ~/dev/dotfiles
 cd ~/dev/dotfiles
 ```
 
-### (A) home-manager セットアップ
-
-`starship` は home-manager 経由で配置されます。
-
-#### A-1. Nix のインストール
+### 1. Nix のインストール
 
 [Determinate Systems Installer](https://determinate.systems/posts/determinate-nix-installer/) を推奨します。
 
@@ -141,59 +141,47 @@ cd ~/dev/dotfiles
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
-#### A-2. 既存 symlink の退避（既存マシンの初回切替時のみ）
+### 2. 既存 symlink の退避（既存マシンの初回切替時のみ）
 
-旧 `setup.sh` で張られた symlink が残っていると home-manager が「foreign file」として失敗します。初回のみ手動で削除してください。
+旧 `setup.sh` で張られた symlink が残っていると home-manager が「foreign file」として失敗します。
+**初回のみ手動で削除する**か、後述の `-b backup` オプションで退避してください。
+
+手動削除する場合:
 
 ```sh
 rm -f ~/.config/starship.toml
+rm -rf ~/.config/nvim ~/.config/wezterm ~/.config/zsh ~/.config/git
+rm -f ~/.zshenv
+rm -f ~/.claude/settings.json ~/.claude/CLAUDE.md ~/.claude/statusline-command.sh
+rm -rf ~/.claude/skills
 ```
 
-#### A-3. home-manager の実行
+> 上記はすべてリポジトリ実体への symlink なので削除しても dotfiles 本体には影響しません。
 
-```sh
-nix run home-manager/master -- switch --flake .#komusan
-```
+### 3. setup.sh で state ディレクトリを準備
 
-`~/.config/starship.toml` がリポジトリ実体への symlink として配置されます（`mkOutOfStoreSymlink` で生成）。
-
-### (B) `./setup.sh` 実行
-
-残りのツール（Neovim / WezTerm / Zsh / Git / Claude Code）の symlink を作成します。
+zsh の `HISTFILE` 配置先を作成します（home-manager の対象外）。
 
 ```sh
 ./setup.sh
 ```
 
-セットアップスクリプトは以下の symlink を作成します：
-
-| ソース | リンク先 |
-|---|---|
-| `nvim/.config/nvim` | `~/.config/nvim` |
-| `wezterm/.config/wezterm` | `~/.config/wezterm` |
-| `zsh/.zshenv` | `~/.zshenv` |
-| `zsh/.config/zsh` | `~/.config/zsh` |
-| `git/.config/git` | `~/.config/git` |
-| `claude/.claude/settings.json` | `~/.claude/settings.json` |
-| `claude/.claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| `claude/.claude/skills` | `~/.claude/skills` |
-| `claude/.claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
-
-> Starship (`~/.config/starship.toml`) は home-manager 経由で配置されます（上記 (A) を参照）。
-
-**サブコマンド:**
+### 4. home-manager の実行
 
 ```sh
-./setup.sh                 # symlink を作成する
-./setup.sh --dry-run       # 実行せずに何をするか表示する
-./setup.sh --clean-backups # 既存の .backup.* を列挙して削除する
+nix run home-manager/master -- switch --flake .#komusan -b backup
 ```
 
-**機能:**
-- 既存 symlink は上書き（idempotent）
-- 既存の**実体ファイル**がある場合は安全のためエラーで停止（手動で退避してから再実行）
-- 親ディレクトリと `~/.local/state/zsh` を自動作成
-- bash / zsh / sh どちらでも実行可能（POSIX 互換）
+`-b backup` を付けると衝突したファイルを `<path>.backup` に退避してくれます。
+退避された `.backup` ファイルは確認後に `./setup.sh --clean-backups` で削除可能です。
+
+### 5. 通常運用
+
+設定変更後は以下で適用します（`-b backup` は初回のみ必要）。
+
+```sh
+home-manager switch --flake .#komusan
+```
 
 ## CI
 

@@ -71,6 +71,7 @@ jobs:
             "zsh/.zshenv"
             "zsh/.config/zsh"
             "git/.config/git"
+            "starship/.config/starship.toml"
             "claude/.claude/settings.json"
             "claude/.claude/skills"
             "claude/.claude/CLAUDE.md"
