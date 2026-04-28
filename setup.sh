@@ -28,21 +28,10 @@ DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # symlink 対象のリスト（リポジトリからの相対パス）
 # 形式: <package>/<HOME相対パス>
-# 例: nvim/.config/nvim → $DOTFILES_DIR/nvim/.config/nvim を $HOME/.config/nvim に symlink
 #
-# claude/ 配下は ~/.claude/ に Claude Code 自身がステートを書き込むため、
-# .claude/ 全体ではなく管理対象ファイル/ディレクトリ単位で symlink する。
-LINKS="
-nvim/.config/nvim
-wezterm/.config/wezterm
-zsh/.zshenv
-zsh/.config/zsh
-git/.config/git
-claude/.claude/settings.json
-claude/.claude/CLAUDE.md
-claude/.claude/skills
-claude/.claude/statusline-command.sh
-"
+# Phase 1 (#51) で全 dotfiles を home-manager の mkOutOfStoreSymlink へ移行したため空。
+# Phase 4 (#54) でこの setup.sh 自体を廃止する予定。
+LINKS=""
 
 # 事前作成するディレクトリ（ツールが書き込むパス）
 PRE_MKDIRS="
