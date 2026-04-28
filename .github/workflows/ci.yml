@@ -68,7 +68,6 @@ jobs:
           paths=(
             "nvim/.config/nvim"
             "wezterm/.config/wezterm"
-            "starship/.config/starship.toml"
             "zsh/.zshenv"
             "zsh/.config/zsh"
             "git/.config/git"
