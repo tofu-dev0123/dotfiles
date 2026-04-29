@@ -4,6 +4,7 @@ brew "docker-compose"
 brew "jenkins-lts", restart_service: :changed
 brew "libpq", link: true
 brew "mysql-client"
+# Phase 3 (#53) で programs.neovim 経由で Nix 化予定
 brew "neovim"
 brew "node"
 brew "openjdk@17"

@@ -13,11 +13,12 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 ## セットアップ方式
 
 全 dotfiles は home-manager (Nix) の `mkOutOfStoreSymlink` で `$HOME` 配下に配置されます。
-home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](https://github.com/tofu-dev0123/dotfiles/issues/51)) で全 dotfiles の symlink 化が完了しました。
+home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](https://github.com/tofu-dev0123/dotfiles/issues/51)) で全 dotfiles の symlink 化が完了し、Phase 2 ([#52](https://github.com/tofu-dev0123/dotfiles/issues/52)) で純 CLI ツール群を `home.packages` に集約しました。
 
 | ツール | 管理方式 |
 |---|---|
 | Starship / Neovim / WezTerm / Zsh / Git / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
+| cosign / cowsay / eza / fzf / gh / git / jq / lazygit / luacheck / railway / shellcheck / starship / stylua | home-manager (`home.packages`) |
 
 `setup.sh` は zsh の state ディレクトリ事前作成のみを担当する補助スクリプトとして残っており、Phase 4 ([#54](https://github.com/tofu-dev0123/dotfiles/issues/54)) で廃止予定です。
 
@@ -119,11 +120,10 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 
 ### 0. 共通: 必要なツールのインストールとリポジトリ取得
 
-[Homebrew](https://brew.sh/) を使用してインストールします（`starship` は home-manager 側で別途扱うため除外）。
+[Homebrew](https://brew.sh/) を使用してインストールします。Brewfile を同梱しているので一括導入できます（`home.packages` で扱うものは除外済み）。
 
 ```sh
-brew install neovim eza fzf
-brew install --cask wezterm
+brew bundle install --file=Brewfile
 ```
 
 リポジトリをクローン:
