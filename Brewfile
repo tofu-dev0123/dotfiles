@@ -1,7 +1,6 @@
 brew "colima"
 brew "docker"
 brew "docker-compose"
-brew "fzf"
 brew "jenkins-lts", restart_service: :changed
 brew "libpq", link: true
 brew "mysql-client"
@@ -11,7 +10,6 @@ brew "openjdk@17"
 brew "qemu"
 brew "rbenv"
 brew "ruby"
-brew "starship"
 brew "tenv"
 brew "tomcat"
 brew "uv"

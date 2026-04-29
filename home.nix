@@ -10,6 +10,7 @@
     cosign
     cowsay
     eza
+    fzf
     gh
     git
     jq
@@ -17,6 +18,7 @@
     lua54Packages.luacheck
     railway
     shellcheck
+    starship
     stylua
   ];
 
