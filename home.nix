@@ -10,7 +10,10 @@
     cosign
     cowsay
     eza
+    gh
+    git
     jq
+    lazygit
     lua54Packages.luacheck
     railway
     shellcheck

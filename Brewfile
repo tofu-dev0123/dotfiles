@@ -2,10 +2,7 @@ brew "colima"
 brew "docker"
 brew "docker-compose"
 brew "fzf"
-brew "gh"
-brew "git"
 brew "jenkins-lts", restart_service: :changed
-brew "lazygit"
 brew "libpq", link: true
 brew "mysql-client"
 brew "neovim"
