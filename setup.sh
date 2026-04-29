@@ -34,9 +34,8 @@ DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 LINKS=""
 
 # 事前作成するディレクトリ（ツールが書き込むパス）
-PRE_MKDIRS="
-.local/state/zsh
-"
+# Phase 3 (#53) で .local/state/zsh は programs.zsh.history.path により home-manager 側で吸収。
+PRE_MKDIRS=""
 
 # =============================================================================
 # ユーティリティ

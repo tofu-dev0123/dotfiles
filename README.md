@@ -12,15 +12,17 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 
 ## セットアップ方式
 
-全 dotfiles は home-manager (Nix) の `mkOutOfStoreSymlink` で `$HOME` 配下に配置されます。
-home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](https://github.com/tofu-dev0123/dotfiles/issues/51)) で全 dotfiles の symlink 化が完了し、Phase 2 ([#52](https://github.com/tofu-dev0123/dotfiles/issues/52)) で純 CLI ツール群を `home.packages` に集約しました。
+全 dotfiles は home-manager (Nix) で `$HOME` 配下に配置されます。
+home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](https://github.com/tofu-dev0123/dotfiles/issues/51)) で全 dotfiles の symlink 化、Phase 2 ([#52](https://github.com/tofu-dev0123/dotfiles/issues/52)) で純 CLI ツール群の `home.packages` 集約、Phase 3 ([#53](https://github.com/tofu-dev0123/dotfiles/issues/53)) で zsh / git / starship を `programs.*` モジュールによる宣言的管理へ移行しました。
 
 | ツール | 管理方式 |
 |---|---|
-| Starship / Neovim / WezTerm / Zsh / Git / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
-| cosign / cowsay / eza / fzf / gh / git / jq / lazygit / luacheck / railway / shellcheck / starship / stylua | home-manager (`home.packages`) |
+| Zsh / Git / Starship | home-manager (`programs.*`) |
+| Neovim / WezTerm / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
+| fzf | home-manager (`programs.fzf`)（zsh 統合自動有効化） |
+| cosign / cowsay / eza / gh / jq / lazygit / luacheck / railway / shellcheck / stylua | home-manager (`home.packages`) |
 
-`setup.sh` は zsh の state ディレクトリ事前作成のみを担当する補助スクリプトとして残っており、Phase 4 ([#54](https://github.com/tofu-dev0123/dotfiles/issues/54)) で廃止予定です。
+`setup.sh` は Phase 3 で `PRE_MKDIRS` を `programs.zsh.history.path` に吸収させたため実質的な処理を持たず、Phase 4 ([#54](https://github.com/tofu-dev0123/dotfiles/issues/54)) で廃止予定です。
 
 ## Neovim プラグイン一覧
 
@@ -58,10 +60,14 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 .
 ├── flake.nix             # home-manager の flake 入口
 ├── flake.lock            # flake 依存ロック
-├── home.nix              # home-manager 設定本体
+├── home.nix              # home-manager 設定本体（imports でツール別モジュールを束ねる）
 ├── modules/
-│   └── dotfiles.nix      # 全 dotfiles の symlink 定義（mkOutOfStoreSymlink）
-├── setup.sh              # 補助スクリプト（zsh state ディレクトリ作成）
+│   ├── dotfiles.nix      # mkOutOfStoreSymlink で配置する dotfiles 定義（Nix 非対応ツール）
+│   ├── shell-env.nix     # XDG 環境変数 (home.sessionVariables) 集約
+│   ├── zsh.nix           # programs.zsh 宣言（alias / history / sessionPath / profileExtra）
+│   ├── git.nix           # programs.git 宣言（user.* / ignores）
+│   └── starship.nix      # programs.starship 宣言（settings を Nix attrset で記述）
+├── setup.sh              # 補助スクリプト（Phase 4 で廃止予定）
 ├── .luacheckrc           # Lua linter 設定
 ├── .github/
 │   └── workflows/
@@ -84,16 +90,7 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 │       ├── keybinds.lua
 │       └── tabs.lua
 ├── zsh/
-│   ├── .zshenv                   → ~/.zshenv
-│   └── .config/zsh/              → ~/.config/zsh/
-│       ├── .zprofile
-│       └── .zshrc
-├── starship/
-│   └── .config/starship.toml     → ~/.config/starship.toml
-├── git/
-│   └── .config/git/              → ~/.config/git/
-│       ├── config
-│       └── ignore
+│   └── zshrc-extra.sh            # programs.zsh.initContent から readFile で取り込み
 └── claude/
     └── .claude/                  # ※ ~/.claude/ 全体は symlink せず、配下を個別にリンク
         ├── settings.json         → ~/.claude/settings.json
@@ -143,7 +140,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 ### 2. 既存 symlink の退避（既存マシンの初回切替時のみ）
 
-旧 `setup.sh` で張られた symlink が残っていると home-manager が「foreign file」として失敗します。
+旧 `setup.sh` で張られた symlink や、旧 Phase の `mkOutOfStoreSymlink` で張られた symlink が残っていると home-manager が「foreign file」として失敗します。
 **初回のみ手動で削除する**か、後述の `-b backup` オプションで退避してください。
 
 手動削除する場合:
@@ -158,15 +155,7 @@ rm -rf ~/.claude/skills
 
 > 上記はすべてリポジトリ実体への symlink なので削除しても dotfiles 本体には影響しません。
 
-### 3. setup.sh で state ディレクトリを準備
-
-zsh の `HISTFILE` 配置先を作成します（home-manager の対象外）。
-
-```sh
-./setup.sh
-```
-
-### 4. home-manager の実行
+### 3. home-manager の実行
 
 ```sh
 nix run home-manager/master -- switch --flake .#komusan -b backup
@@ -175,7 +164,7 @@ nix run home-manager/master -- switch --flake .#komusan -b backup
 `-b backup` を付けると衝突したファイルを `<path>.backup` に退避してくれます。
 退避された `.backup` ファイルは確認後に `./setup.sh --clean-backups` で削除可能です。
 
-### 5. 通常運用
+### 4. 通常運用
 
 設定変更後は以下で適用します（`-b backup` は初回のみ必要）。
 
