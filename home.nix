@@ -6,6 +6,22 @@
   home.homeDirectory = "/Users/komusan";
   home.stateVersion = "25.05";
 
+  home.packages = with pkgs; [
+    cosign
+    cowsay
+    eza
+    fzf
+    gh
+    git
+    jq
+    lazygit
+    lua54Packages.luacheck
+    railway
+    shellcheck
+    starship
+    stylua
+  ];
+
   programs.home-manager.enable = true;
   xdg.enable = true;
 }
