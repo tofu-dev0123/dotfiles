@@ -65,13 +65,10 @@ jobs:
       - name: Check symlink source files exist
         run: |
           failed=0
+          # Phase 3 (#53) で zsh / git / starship は programs.* に移行したため対象外
           paths=(
             "nvim/.config/nvim"
             "wezterm/.config/wezterm"
-            "zsh/.zshenv"
-            "zsh/.config/zsh"
-            "git/.config/git"
-            "starship/.config/starship.toml"
             "claude/.claude/settings.json"
             "claude/.claude/skills"
             "claude/.claude/CLAUDE.md"
