@@ -14,7 +14,7 @@ tools: [Agent, Read, Edit, Write, Glob, Grep, Bash, EnterPlanMode, ExitPlanMode]
    - ディレクトリ構成（ファイルツリー全体）
    - 主要なソースファイル・設定ファイルの役割と内容
    - 使用している技術スタック・言語・フレームワーク・ライブラリ
-   - セットアップ手順やスクリプト（`setup.sh`、`Makefile`、`package.json` のスクリプト等）
+   - セットアップ手順やスクリプト（`flake.nix`、`Makefile`、`package.json` のスクリプト等）
    - CI/CD 設定、テスト構成、ビルド方法
 
 2. **現在の README.md を読み込む**

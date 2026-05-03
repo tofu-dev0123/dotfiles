@@ -26,8 +26,15 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 - プロジェクトスキルは `.claude/skills/<name>/SKILL.md` で管理
 - スキルのフォーマット: YAML フロントマター（`description`, `argument-hint`, `allowed-tools`）+ 本文
 
+### ランタイム管理の方針
+- 言語ランタイム（ruby / node / python 等）は dotfiles では扱わず、各プロジェクトの `flake.nix` + direnv で管理する
+- `home.packages` は CLI ツール（jq / gh / lazygit 等）のみを置く
+- per-project flake のテンプレートは `docs/flake-template.md` を参照
+
 ## コマンド
 
-- セットアップ: `./setup.sh`（`--dry-run` で事前確認、`--clean-backups` で旧バックアップ削除）
+- セットアップ（初回）: `nix run home-manager/master -- switch --flake .#komusan -b backup`
+- 通常適用: `home-manager switch --flake .#komusan`
 - PR 作成: `/pr [base-branch]`（`claude/.claude/skills/pr/SKILL.md` に定義済み）
 - Issue 作成: `/issue [topic]`（`claude/.claude/skills/issue/SKILL.md` に定義済み）
+- ローカル CI チェック: `/check`

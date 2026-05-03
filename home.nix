@@ -6,6 +6,7 @@
     ./modules/zsh.nix
     ./modules/git.nix
     ./modules/starship.nix
+    ./modules/direnv.nix
   ];
 
   home.username = "komusan";

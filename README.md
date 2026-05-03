@@ -13,16 +13,16 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 ## セットアップ方式
 
 全 dotfiles は home-manager (Nix) で `$HOME` 配下に配置されます。
-home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](https://github.com/tofu-dev0123/dotfiles/issues/51)) で全 dotfiles の symlink 化、Phase 2 ([#52](https://github.com/tofu-dev0123/dotfiles/issues/52)) で純 CLI ツール群の `home.packages` 集約、Phase 3 ([#53](https://github.com/tofu-dev0123/dotfiles/issues/53)) で zsh / git / starship を `programs.*` モジュールによる宣言的管理へ移行しました。
+home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](https://github.com/tofu-dev0123/dotfiles/issues/51)) で全 dotfiles の symlink 化、Phase 2 ([#52](https://github.com/tofu-dev0123/dotfiles/issues/52)) で純 CLI ツール群の `home.packages` 集約、Phase 3 ([#53](https://github.com/tofu-dev0123/dotfiles/issues/53)) で zsh / git / starship を `programs.*` モジュールによる宣言的管理へ移行、Phase 4 ([#54](https://github.com/tofu-dev0123/dotfiles/issues/54)) で `direnv + nix-direnv` 導入と `setup.sh` 廃止を行いました。
 
 | ツール | 管理方式 |
 |---|---|
-| Zsh / Git / Starship | home-manager (`programs.*`) |
+| Zsh / Git / Starship / direnv | home-manager (`programs.*`) |
 | Neovim / WezTerm / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
 | fzf | home-manager (`programs.fzf`)（zsh 統合自動有効化） |
 | cosign / cowsay / eza / gh / jq / lazygit / luacheck / railway / shellcheck / stylua | home-manager (`home.packages`) |
-
-`setup.sh` は Phase 3 で `PRE_MKDIRS` を `programs.zsh.history.path` に吸収させたため実質的な処理を持たず、Phase 4 ([#54](https://github.com/tofu-dev0123/dotfiles/issues/54)) で廃止予定です。
+| GUI / Cask アプリ (1Password / WezTerm 等) | Homebrew (`Brewfile`) |
+| プロジェクト固有のランタイム (ruby / node 等) | プロジェクト側 `flake.nix` + direnv（dotfiles では扱わない） |
 
 ## Neovim プラグイン一覧
 
@@ -66,8 +66,10 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 │   ├── shell-env.nix     # XDG 環境変数 (home.sessionVariables) 集約
 │   ├── zsh.nix           # programs.zsh 宣言（alias / history / sessionPath / profileExtra）
 │   ├── git.nix           # programs.git 宣言（user.* / ignores）
-│   └── starship.nix      # programs.starship 宣言（settings を Nix attrset で記述）
-├── setup.sh              # 補助スクリプト（Phase 4 で廃止予定）
+│   ├── starship.nix      # programs.starship 宣言（settings を Nix attrset で記述）
+│   └── direnv.nix        # programs.direnv 宣言（nix-direnv 連携で flake 自動評価）
+├── docs/
+│   └── flake-template.md # per-project flake.nix のテンプレート集（Ruby / Node 等）
 ├── .luacheckrc           # Lua linter 設定
 ├── .github/
 │   └── workflows/
@@ -117,7 +119,8 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 
 ### 0. 共通: 必要なツールのインストールとリポジトリ取得
 
-[Homebrew](https://brew.sh/) を使用してインストールします。Brewfile を同梱しているので一括導入できます（`home.packages` で扱うものは除外済み）。
+[Homebrew](https://brew.sh/) を使用して GUI / Cask アプリをインストールします。
+**`Brewfile` には GUI / Cask アプリのみを記載**し、CLI ツールは `home.packages` で管理する方針です。
 
 ```sh
 brew bundle install --file=Brewfile
@@ -140,7 +143,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 ### 2. 既存 symlink の退避（既存マシンの初回切替時のみ）
 
-旧 `setup.sh` で張られた symlink や、旧 Phase の `mkOutOfStoreSymlink` で張られた symlink が残っていると home-manager が「foreign file」として失敗します。
+旧 Phase の `mkOutOfStoreSymlink` で張られた symlink が残っていると home-manager が「foreign file」として失敗します。
 **初回のみ手動で削除する**か、後述の `-b backup` オプションで退避してください。
 
 手動削除する場合:
@@ -162,7 +165,12 @@ nix run home-manager/master -- switch --flake .#komusan -b backup
 ```
 
 `-b backup` を付けると衝突したファイルを `<path>.backup` に退避してくれます。
-退避された `.backup` ファイルは確認後に `./setup.sh --clean-backups` で削除可能です。
+退避された `.backup` ファイルは確認後に以下で削除できます。
+
+```sh
+find ~ -maxdepth 4 -name '*.backup.*' -print   # まず確認
+find ~ -maxdepth 4 -name '*.backup.*' -exec rm -rf {} +
+```
 
 ### 4. 通常運用
 
@@ -172,16 +180,35 @@ nix run home-manager/master -- switch --flake .#komusan -b backup
 home-manager switch --flake .#komusan
 ```
 
+## プロジェクト単位のランタイム管理
+
+言語ランタイム（ruby / node / python 等）は dotfiles では扱わず、**プロジェクトごとに `flake.nix` + `.envrc` を配置**して direnv で自動切替します。テンプレートは [`docs/flake-template.md`](./docs/flake-template.md) を参照してください。
+
+新しいプロジェクトを始めるとき:
+
+```sh
+cd ~/dev/your-project
+cp <template> flake.nix         # docs/flake-template.md を参考に作成
+echo "use flake" > .envrc
+direnv allow
+```
+
+`cd` するだけで該当プロジェクト用のランタイムが有効化されます。
+
+## 補足: 個別ツールの方針
+
+- **aws CLI キャッシュ** (`~/.aws/cli/`, `~/.aws/sso/`): aws CLI が `~/.aws` 直下を参照する仕様で XDG 化が困難なため `~/.aws` のまま維持する方針です（[#42](https://github.com/tofu-dev0123/dotfiles/issues/42) で議論し [#54](https://github.com/tofu-dev0123/dotfiles/issues/54) で確定）。
+
 ## CI
 
 GitHub Actions で以下のチェックを自動実行します（PR・main push 時）。
 
 | ジョブ | 内容 |
 |---|---|
-| ShellCheck | `setup.sh` の静的解析 |
-| Luacheck | `nvim/lua/` 配下の Lua ファイル解析 |
-| SKILL.md Validation | `claude/skills/**/SKILL.md` のフロントマター検証 |
-| Symlink Source Check | `setup.sh` が参照するファイル・ディレクトリの存在確認 |
+| ShellCheck | リポジトリ内のシェルスクリプト全般の静的解析 |
+| Luacheck | `nvim/.config/nvim/lua/` 配下の Lua ファイル解析 |
+| SKILL.md Validation | `claude/.claude/skills/**/SKILL.md` のフロントマター検証 |
+| Symlink Source Check | `modules/dotfiles.nix` が参照するファイル・ディレクトリの存在確認 |
 
 ## Claude Code カスタムスキル
 

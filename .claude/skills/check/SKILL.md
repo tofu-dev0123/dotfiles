@@ -12,17 +12,22 @@ total_failed=0
 # 1. ShellCheck
 if ! command -v shellcheck &>/dev/null; then
   shellcheck_result="[SKIP] ShellCheck"
-elif shellcheck setup.sh 2>&1; then
-  shellcheck_result="[PASS] ShellCheck"
 else
-  shellcheck_result="[FAIL] ShellCheck"
-  total_failed=$((total_failed + 1))
+  sh_files=$(find . -name '*.sh' -not -path './.git/*')
+  if [ -z "$sh_files" ]; then
+    shellcheck_result="[SKIP] ShellCheck (.sh ファイルなし)"
+  elif echo "$sh_files" | xargs shellcheck 2>&1; then
+    shellcheck_result="[PASS] ShellCheck"
+  else
+    shellcheck_result="[FAIL] ShellCheck"
+    total_failed=$((total_failed + 1))
+  fi
 fi
 
 # 2. Luacheck
 if ! command -v luacheck &>/dev/null; then
   luacheck_result="[SKIP] Luacheck"
-elif luacheck nvim/lua/ 2>&1; then
+elif luacheck nvim/.config/nvim/lua/ 2>&1; then
   luacheck_result="[PASS] Luacheck"
 else
   luacheck_result="[FAIL] Luacheck"
@@ -45,7 +50,7 @@ while IFS= read -r file; do
     echo "  ERROR: description フィールドがありません: $file"
     skill_failed=1
   fi
-done < <(find claude/skills -name 'SKILL.md')
+done < <(find claude/.claude/skills -name 'SKILL.md')
 if [ $skill_failed -eq 0 ]; then
   skill_result="[PASS] SKILL.md 検証"
 else
@@ -53,9 +58,9 @@ else
   total_failed=$((total_failed + 1))
 fi
 
-# 4. symlink 整合性確認
+# 4. symlink 整合性確認 (modules/dotfiles.nix で参照しているパス)
 symlink_failed=0
-for path in nvim wezterm zsh/.zshrc starship/starship.toml claude/settings.json claude/skills claude/CLAUDE.md claude/statusline-command.sh; do
+for path in nvim/.config/nvim wezterm/.config/wezterm claude/.claude/settings.json claude/.claude/skills claude/.claude/CLAUDE.md claude/.claude/statusline-command.sh; do
   if [ ! -e "$path" ]; then
     echo "  ERROR: 存在しません: $path"
     symlink_failed=1
