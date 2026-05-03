@@ -69,7 +69,8 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 │   ├── starship.nix      # programs.starship 宣言（settings を Nix attrset で記述）
 │   └── direnv.nix        # programs.direnv 宣言（nix-direnv 連携で flake 自動評価）
 ├── docs/
-│   └── flake-template.md # per-project flake.nix のテンプレート集（Ruby / Node 等）
+│   ├── flake-template.md      # per-project flake.nix のテンプレート集（Ruby / Node 等）
+│   └── nix-operation-guide.md # Nix / home-manager の日常運用ガイド
 ├── .luacheckrc           # Lua linter 設定
 ├── .github/
 │   └── workflows/
@@ -183,6 +184,8 @@ home-manager switch --flake .#komusan
 ## プロジェクト単位のランタイム管理
 
 言語ランタイム（ruby / node / python 等）は dotfiles では扱わず、**プロジェクトごとに `flake.nix` + `.envrc` を配置**して direnv で自動切替します。テンプレートは [`docs/flake-template.md`](./docs/flake-template.md) を参照してください。
+
+日常的な運用フロー（パッケージ追加・flake 更新・トラブル切り分け等）は [`docs/nix-operation-guide.md`](./docs/nix-operation-guide.md) にまとめています。
 
 新しいプロジェクトを始めるとき:
 
