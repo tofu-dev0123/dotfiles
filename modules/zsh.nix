@@ -19,7 +19,7 @@
       dcd = ''cd "$(find ~ -type d | fzf)"'';
     };
 
-    # cd 関数 / rbenv init 等、Nix 式に分解しづらいシェル処理
+    # cd 関数等、Nix 式に分解しづらいシェル処理
     initContent = builtins.readFile ../zsh/zshrc-extra.sh;
 
     # ログインシェルでのみ実行する Homebrew 環境設定
@@ -29,9 +29,8 @@
   };
 
   # PATH への追加
-  # rbenv shims, ユーザーローカル bin, npm-global bin
+  # ユーザーローカル bin, npm-global bin
   home.sessionPath = [
-    "${config.home.homeDirectory}/.rbenv/shims"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.npm-global/bin"
   ];
