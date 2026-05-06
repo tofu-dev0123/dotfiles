@@ -9,5 +9,3 @@
 cd() {
 	builtin cd "$@" && eza -l --icons --group-directories-first
 }
-
-eval "$(rbenv init -)"
