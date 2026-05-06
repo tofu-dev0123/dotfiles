@@ -7,6 +7,9 @@
 # 対話シェルでのみ有効。非対話シェルでの伝搬問題は #59 で別途対応する想定。
 {
   home.sessionVariables = {
+    # nh のデフォルト flake パス（nh home switch だけで切り替え可能に）
+    NH_FLAKE = "${config.home.homeDirectory}/dev/dotfiles";
+
     # less の履歴を保存しない
     LESSHISTFILE = "-";
 

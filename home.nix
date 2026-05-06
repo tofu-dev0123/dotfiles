@@ -23,6 +23,7 @@
     jq
     lazygit
     lua54Packages.luacheck
+    nh
     railway
     shellcheck
     stylua
