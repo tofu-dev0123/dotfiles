@@ -16,10 +16,20 @@
         inherit system;
         config.allowUnfree = true;
       };
-    in {
-      homeConfigurations."komusan" = home-manager.lib.homeManagerConfiguration {
+      mkHome = username: home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home.nix ];
+        modules = [
+          ./home.nix
+          {
+            home.username = username;
+            home.homeDirectory = "/Users/${username}";
+          }
+        ];
+      };
+    in {
+      homeConfigurations = {
+        komusan = mkHome "komusan";
+        masatokomukai = mkHome "masatokomukai";
       };
     };
 }
