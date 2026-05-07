@@ -20,7 +20,7 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | Zsh / Git / Starship / direnv | home-manager (`programs.*`) |
 | Neovim / WezTerm / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
 | fzf | home-manager (`programs.fzf`)（zsh 統合自動有効化） |
-| cosign / cowsay / eza / gh / jq / lazygit / luacheck / railway / shellcheck / stylua | home-manager (`home.packages`) |
+| cosign / cowsay / eza / gh / jq / lazygit / luacheck / railway / serie / shellcheck / stylua | home-manager (`home.packages`) |
 | GUI / Cask アプリ (1Password / WezTerm 等) | Homebrew (`Brewfile`) |
 | プロジェクト固有のランタイム (ruby / node 等) | プロジェクト側 `flake.nix` + direnv（dotfiles では扱わない） |
 
