@@ -48,7 +48,15 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | ファジーファインダー | `plugins/telescope.lua` |
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | ターミナル | `plugins/toggleterm.lua` |
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | シンタックスハイライト | `plugins/treesitter.lua` |
-| [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム | `plugins/colorscheme.lua` |
+| [catppuccin/nvim](https://github.com/catppuccin/nvim) | カラースキーム（パステル） | `plugins/colorscheme.lua` |
+| [everforest](https://github.com/sainnhe/everforest) | カラースキーム（緑系・低コントラスト） | `plugins/colorscheme.lua` |
+| [github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) | カラースキーム（GitHub 風） | `plugins/colorscheme.lua` |
+| [gruvbox-material](https://github.com/sainnhe/gruvbox-material) | カラースキーム（暖色レトロ） | `plugins/colorscheme.lua` |
+| [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) | カラースキーム（和風） | `plugins/colorscheme.lua` |
+| [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) | カラースキーム（Fox ファミリー） | `plugins/colorscheme.lua` |
+| [rose-pine/neovim](https://github.com/rose-pine/neovim) | カラースキーム（ロー彩度） | `plugins/colorscheme.lua` |
+| [tokyonight.nvim](https://github.com/folke/tokyonight.nvim) | カラースキーム（青系モダン） | `plugins/colorscheme.lua` |
+| [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム（デフォルト） | `plugins/colorscheme.lua` |
 | [vim-illuminate](https://github.com/RRethy/vim-illuminate) | カーソル下の単語をハイライト | `plugins/illuminate.lua` |
 
 ## リポジトリ構成
