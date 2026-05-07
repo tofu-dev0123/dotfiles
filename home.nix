@@ -9,8 +9,7 @@
     ./modules/direnv.nix
   ];
 
-  home.username = "komusan";
-  home.homeDirectory = "/Users/komusan";
+  # home.username / home.homeDirectory は flake.nix の mkHome から注入される
   home.stateVersion = "25.05";
 
   # programs.* で管理されないツールのみ home.packages で宣言
