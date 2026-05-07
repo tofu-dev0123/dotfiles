@@ -24,6 +24,7 @@
     lua54Packages.luacheck
     nh
     railway
+    serie
     shellcheck
     stylua
   ];
