@@ -181,6 +181,56 @@ find ~ -maxdepth 4 -name '*.backup.*' -exec rm -rf {} +
 home-manager switch --flake .#komusan
 ```
 
+## 複数 Git アカウントの切替
+
+個人と会社のアカウントを使い分けるため、リポジトリの配置先に応じて `user.name` / `user.email` / SSH 鍵が自動切替されます（[#47](https://github.com/tofu-dev0123/dotfiles/issues/47)）。
+
+### ディレクトリ規約
+
+```
+~/work/                  # 会社アカウントの集約ルート
+├── mk-dt/               # 株式会社 MK-DT 用リポジトリ
+└── <将来の会社>/         # 会社追加時はここに掘る
+```
+
+- `~/work/<会社名>/` 配下のリポジトリ → 会社用 config を `includeIf` で読み込む
+- それ以外（`~/dev/` 等） → 個人用 config（`modules/git.nix` の `settings.user`）がそのまま適用
+
+`includeIf` ルールは `modules/git.nix` で宣言。include 先ファイルの**中身**は個人情報を含むためリポジトリ非管理で、各マシンに手動配置します。
+
+### ローカルで用意するファイル
+
+#### `~/.config/git/config.mk-dt`（必須）
+
+```ini
+[user]
+  name = <会社用 GitHub アカウント名>
+  email = <会社メールアドレス>
+
+[core]
+  sshCommand = "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes"
+```
+
+- `~/work/mk-dt/` 配下で自動読込される
+- `core.sshCommand` で会社用 SSH 鍵を強制使用（個人鍵が誤って使われる事故を防ぐ）
+
+#### `~/.config/git/config.work-common`（任意）
+
+複数会社で共通させたい設定があれば記述。不要なら作成しなくてよい（git は存在しない include 先を黙殺する）。
+
+### SSH 鍵の前提
+
+- 会社用鍵: `~/.ssh/id_ed25519`
+- 個人用鍵: `~/.ssh/id_rsa`
+- `~/.ssh/config` ではホストエイリアス（`github.com-work` 等）を使わず、素の `git@github.com:...` URL で運用。鍵の選択はディレクトリ位置に応じて `core.sshCommand` が決定する
+
+### 動作確認
+
+```sh
+cd ~/work/mk-dt/<repo> && git config user.email   # 会社メールが返る
+cd ~/dev/<repo>        && git config user.email   # 個人メールが返る
+```
+
 ## プロジェクト単位のランタイム管理
 
 言語ランタイム（ruby / node / python 等）は dotfiles では扱わず、**プロジェクトごとに `flake.nix` + `.envrc` を配置**して direnv で自動切替します。テンプレートは [`docs/flake-template.md`](./docs/flake-template.md) を参照してください。

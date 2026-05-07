@@ -28,6 +28,14 @@
         show_milliseconds = false;
       };
       command_timeout = 1200;
+      custom.git_user = {
+        description = "現在の git リポジトリの user.name を表示する";
+        command = "git config user.name";
+        when = "git rev-parse --is-inside-work-tree 2>/dev/null";
+        format = "[ $symbol $output ]($style)";
+        symbol = "";
+        style = "fg:surface0 bg:sky";
+      };
       conda = {
         format = "[[ $symbol $environment ](fg:yellow bg:blue)($version) ]($style)";
         ignore_base = false;
@@ -65,7 +73,7 @@
       fill = {
         symbol = " ";
       };
-      format = "[](fg:yellow)$os[](fg:yellow bg:green)$directory[](fg:green bg:sky)$git_branch$git_status[](fg:sky bg:sapphire)$c$dart$gcloud$golang$gradle$java$kotlin$lua$nodejs$php$python$typst$ruby$rust[](fg:sapphire bg:blue)$conda$docker_context$package$aws[](fg:blue bg:surface0)$cmd_duration[](fg:surface0)$line_break$username$character";
+      format = "[](fg:yellow)$os[](fg:yellow bg:green)$directory[](fg:green bg:sky)\${custom.git_user}$git_branch$git_status[](fg:sky bg:sapphire)$c$dart$gcloud$golang$gradle$java$kotlin$lua$nodejs$php$python$typst$ruby$rust[](fg:sapphire bg:blue)$conda$docker_context$package$aws[](fg:blue bg:surface0)$cmd_duration[](fg:surface0)$line_break$username$character";
       gcloud = {
         disabled = true;
       };

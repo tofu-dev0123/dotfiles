@@ -6,6 +6,9 @@
   programs.zsh = {
     enable = true;
 
+    # fish 風のインライン補完候補（ghost text）。→ で確定
+    autosuggestion.enable = true;
+
     # ZDOTDIR を XDG 配下に明示固定（25.05 のデフォルト変更警告への対応）
     dotDir = "${config.xdg.configHome}/zsh";
 
