@@ -69,12 +69,14 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 ├── flake.nix             # home-manager の flake 入口
 ├── flake.lock            # flake 依存ロック
 ├── home.nix              # home-manager 設定本体（imports でツール別モジュールを束ねる）
-├── modules/
-│   ├── dotfiles.nix      # mkOutOfStoreSymlink で配置する dotfiles 定義（Nix 非対応ツール）
-│   ├── shell-env.nix     # XDG 環境変数 (home.sessionVariables) 集約
-│   ├── zsh.nix           # programs.zsh 宣言（alias / history / sessionPath / profileExtra）
-│   ├── git.nix           # programs.git 宣言（user.* / ignores）
-│   ├── starship.nix      # programs.starship 宣言（settings を Nix attrset で記述）
+├── nix/
+│   └── modules/
+│       └── shell-env.nix # XDG 環境変数 (home.sessionVariables) 集約（横断モジュール）
+├── git/
+│   └── git.nix           # programs.git 宣言（user.* / ignores）
+├── starship/
+│   └── starship.nix      # programs.starship 宣言（settings を Nix attrset で記述）
+├── direnv/
 │   └── direnv.nix        # programs.direnv 宣言（nix-direnv 連携で flake 自動評価）
 ├── docs/
 │   ├── flake-template.md      # per-project flake.nix のテンプレート集（Ruby / Node 等）
@@ -87,6 +89,7 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 │   ├── agents/           # プロジェクト固有エージェント
 │   └── skills/           # プロジェクト固有スキル
 ├── nvim/
+│   ├── nvim.nix                  # mkOutOfStoreSymlink で ~/.config/nvim を配置
 │   └── .config/nvim/             → ~/.config/nvim/
 │       ├── init.lua
 │       ├── lazy-lock.json
@@ -95,14 +98,17 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 │           ├── plugins/          # 各プラグイン定義
 │           └── ui/               # colorscheme.lua
 ├── wezterm/
+│   ├── wezterm.nix               # mkOutOfStoreSymlink で ~/.config/wezterm を配置
 │   └── .config/wezterm/          → ~/.config/wezterm/
 │       ├── wezterm.lua
 │       ├── appearance.lua
 │       ├── keybinds.lua
 │       └── tabs.lua
 ├── zsh/
+│   ├── zsh.nix                   # programs.zsh 宣言（alias / history / sessionPath / profileExtra）
 │   └── zshrc-extra.sh            # programs.zsh.initContent から readFile で取り込み
 └── claude/
+    ├── claude.nix                # mkOutOfStoreSymlink で ~/.claude/ 配下を個別にリンク
     └── .claude/                  # ※ ~/.claude/ 全体は symlink せず、配下を個別にリンク
         ├── settings.json         → ~/.claude/settings.json
         ├── CLAUDE.md             → ~/.claude/CLAUDE.md
@@ -202,9 +208,9 @@ home-manager switch --flake .#komusan
 ```
 
 - `~/work/<会社名>/` 配下のリポジトリ → 会社用 config を `includeIf` で読み込む
-- それ以外（`~/dev/` 等） → 個人用 config（`modules/git.nix` の `settings.user`）がそのまま適用
+- それ以外（`~/dev/` 等） → 個人用 config（`git/git.nix` の `settings.user`）がそのまま適用
 
-`includeIf` ルールは `modules/git.nix` で宣言。include 先ファイルの**中身**は個人情報を含むためリポジトリ非管理で、各マシンに手動配置します。
+`includeIf` ルールは `git/git.nix` で宣言。include 先ファイルの**中身**は個人情報を含むためリポジトリ非管理で、各マシンに手動配置します。
 
 ### ローカルで用意するファイル
 
@@ -269,7 +275,7 @@ GitHub Actions で以下のチェックを自動実行します（PR・main push
 | ShellCheck | リポジトリ内のシェルスクリプト全般の静的解析 |
 | Luacheck | `nvim/.config/nvim/lua/` 配下の Lua ファイル解析 |
 | SKILL.md Validation | `claude/.claude/skills/**/SKILL.md` のフロントマター検証 |
-| Symlink Source Check | `modules/dotfiles.nix` が参照するファイル・ディレクトリの存在確認 |
+| Symlink Source Check | 各ツール配下の `*.nix`（`nvim/nvim.nix` / `wezterm/wezterm.nix` / `claude/claude.nix`）が参照するファイル・ディレクトリの存在確認 |
 
 ## Claude Code カスタムスキル
 

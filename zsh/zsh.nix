@@ -23,7 +23,7 @@
     };
 
     # cd 関数等、Nix 式に分解しづらいシェル処理
-    initContent = builtins.readFile ../zsh/zshrc-extra.sh;
+    initContent = builtins.readFile ./zshrc-extra.sh;
 
     # 全 zsh 起動（非対話含む）で Nix の PATH を有効化する
     # Why: nix-installer 設置の /etc/zshrc は対話シェルのみ、/etc/zshenv は SSH 限定で

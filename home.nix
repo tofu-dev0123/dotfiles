@@ -1,12 +1,14 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./modules/dotfiles.nix
-    ./modules/shell-env.nix
-    ./modules/zsh.nix
-    ./modules/git.nix
-    ./modules/starship.nix
-    ./modules/direnv.nix
+    ./nix/modules/shell-env.nix
+    ./nvim/nvim.nix
+    ./wezterm/wezterm.nix
+    ./claude/claude.nix
+    ./zsh/zsh.nix
+    ./git/git.nix
+    ./starship/starship.nix
+    ./direnv/direnv.nix
   ];
 
   # home.username / home.homeDirectory は flake.nix の mkHome から注入される
