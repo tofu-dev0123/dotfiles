@@ -25,6 +25,16 @@
     # cd 関数等、Nix 式に分解しづらいシェル処理
     initContent = builtins.readFile ../zsh/zshrc-extra.sh;
 
+    # 全 zsh 起動（非対話含む）で Nix の PATH を有効化する
+    # Why: nix-installer 設置の /etc/zshrc は対話シェルのみ、/etc/zshenv は SSH 限定で
+    # nix-daemon.sh を読み込む。そのため cron / launchd / Claude Code のフック等
+    # 非対話シェルから home.packages のツール（gh / jq 等）が解決できない (#59)。
+    envExtra = ''
+      if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+      fi
+    '';
+
     # ログインシェルでのみ実行する Homebrew 環境設定
     profileExtra = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
