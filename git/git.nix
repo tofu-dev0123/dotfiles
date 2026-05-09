@@ -2,6 +2,19 @@
 # git 設定
 # 旧 git/.config/git/config と git/.config/git/ignore を programs.git で宣言的に管理
 {
+  # delta を git の pager として有効化
+  # これにより `git diff` / `git show` / lazygit の差分表示が syntax highlight 付きになる
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;       # n/N で diff セクション間を移動
+      light = false;         # ダークテーマ
+      line-numbers = true;   # 行番号を表示
+      side-by-side = false;  # まずは縦表示（必要なら true へ）
+    };
+  };
+
   programs.git = {
     enable = true;
 

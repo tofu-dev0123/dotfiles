@@ -9,6 +9,7 @@
     ./git/git.nix
     ./starship/starship.nix
     ./direnv/direnv.nix
+    ./lazygit/lazygit.nix
   ];
 
   # home.username / home.homeDirectory は flake.nix の mkHome から注入される
@@ -22,7 +23,6 @@
     eza
     gh
     jq
-    lazygit
     lua54Packages.luacheck
     nh
     railway
