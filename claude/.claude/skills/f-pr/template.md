@@ -15,5 +15,3 @@
 
 ## 注意事項・補足
 <!-- レビュアーへの補足、既知の問題、今後の課題など（任意） -->
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
