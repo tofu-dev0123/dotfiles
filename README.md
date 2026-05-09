@@ -107,6 +107,8 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 ├── zsh/
 │   ├── zsh.nix                   # programs.zsh 宣言（alias / history / sessionPath / profileExtra）
 │   └── zshrc-extra.sh            # programs.zsh.initContent から readFile で取り込み
+├── scripts/
+│   └── cleanup-caches.sh        # 開発ツールのキャッシュ一括クリーンアップ
 └── claude/
     ├── claude.nix                # mkOutOfStoreSymlink で ~/.claude/ 配下を個別にリンク
     └── .claude/                  # ※ ~/.claude/ 全体は symlink せず、配下を個別にリンク
@@ -285,6 +287,21 @@ direnv allow
 ```
 
 `cd` するだけで該当プロジェクト用のランタイムが有効化されます。
+
+## メンテナンススクリプト
+
+`scripts/` 配下に手動実行のメンテナンス用ユーティリティを置いています。
+
+| スクリプト | 用途 |
+|---|---|
+| `scripts/cleanup-caches.sh` | 開発ツール（npm / gradle / docker / cargo）のキャッシュを一括クリーンアップ。`--dry-run` で削除前のサイズだけ確認可能 |
+
+```sh
+./scripts/cleanup-caches.sh --dry-run   # 確認のみ
+./scripts/cleanup-caches.sh             # 実際にクリーンアップ
+```
+
+導入されていないツールは自動でスキップされます。
 
 ## 補足: 個別ツールの方針
 
