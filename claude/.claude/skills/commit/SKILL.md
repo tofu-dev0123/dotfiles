@@ -38,8 +38,6 @@ tools: [Bash]
    ```
    git commit -m "$(cat <<'EOF'
    <承認されたメッセージ>
-
-   Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
    EOF
    )"
    ```
