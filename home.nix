@@ -22,6 +22,7 @@
     cowsay
     eza
     gh
+    imagemagick
     jq
     lua54Packages.luacheck
     nh

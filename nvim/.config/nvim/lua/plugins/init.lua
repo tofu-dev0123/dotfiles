@@ -21,6 +21,7 @@ require("lazy").setup({
   { import = "plugins.swenv" },
   { import = "plugins.ruby" },
   { import = "plugins.illuminate" },
+  { import = "plugins.image" },
 }, {
   checker = { enabled = false },
   change_detection = { notify = false },
