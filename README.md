@@ -175,8 +175,14 @@ rm -rf ~/.claude/skills
 
 ### 3. home-manager の実行
 
+マシン（macOS ユーザー名）に合わせて `.#<user>` を切り替えます。
+
 ```sh
+# 個人 Mac
 nix run home-manager/master -- switch --flake .#komusan -b backup
+
+# 社用 Mac
+nix run home-manager/master -- switch --flake .#masatokomukai -b backup
 ```
 
 `-b backup` を付けると衝突したファイルを `<path>.backup` に退避してくれます。
@@ -192,8 +198,26 @@ find ~ -maxdepth 4 -name '*.backup.*' -exec rm -rf {} +
 設定変更後は以下で適用します（`-b backup` は初回のみ必要）。
 
 ```sh
-home-manager switch --flake .#komusan
+home-manager switch --flake .#komusan        # 個人 Mac
+home-manager switch --flake .#masatokomukai  # 社用 Mac
 ```
+
+## 複数マシン対応
+
+`flake.nix` の `mkHome` ヘルパーで `home.username` / `home.homeDirectory` を注入しているため、`homeConfigurations` にユーザー名を追加するだけで新しいマシンに対応できます。
+
+```nix
+# flake.nix
+homeConfigurations = {
+  komusan = mkHome "komusan";
+  masatokomukai = mkHome "masatokomukai";
+  # 新規マシン追加時はここに 1 行足す
+};
+```
+
+追加後は `home-manager switch --flake .#<新ユーザー名>` で適用します。`home.nix` 側はマシン非依存なので変更不要です。
+
+個人/会社で分岐したい設定（git identity 等）は次節「複数 Git アカウントの切替」を参照してください。
 
 ## 複数 Git アカウントの切替
 
