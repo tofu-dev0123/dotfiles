@@ -58,6 +58,7 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | [tokyonight.nvim](https://github.com/folke/tokyonight.nvim) | カラースキーム（青系モダン） | `plugins/colorscheme.lua` |
 | [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム（デフォルト） | `plugins/colorscheme.lua` |
 | [vim-illuminate](https://github.com/RRethy/vim-illuminate) | カーソル下の単語をハイライト | `plugins/illuminate.lua` |
+| [image.nvim](https://github.com/3rd/image.nvim) | バッファ内画像プレビュー（PNG/JPG/GIF/WebP）。`+`/`-` でズーム、`0` でリセット | `plugins/image.lua` |
 
 ## リポジトリ構成
 
