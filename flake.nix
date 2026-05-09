@@ -9,24 +9,33 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
-      mkHome = username: home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./home.nix
-          {
-            home.username = username;
-            home.homeDirectory = "/Users/${username}";
-          }
-        ];
-      };
-    in {
+      mkHome =
+        username:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home.nix
+            {
+              home.username = username;
+              home.homeDirectory = "/Users/${username}";
+            }
+          ];
+        };
+    in
+    {
       homeConfigurations = {
         komusan = mkHome "komusan";
         masatokomukai = mkHome "masatokomukai";

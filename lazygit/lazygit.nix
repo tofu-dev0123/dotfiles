@@ -1,4 +1,4 @@
-{ ... }:
+_:
 # lazygit 設定
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
 {
@@ -10,14 +10,17 @@
       #    https://github.com/catppuccin/lazygit
       gui = {
         theme = {
-          activeBorderColor = [ "#8caaee" "bold" ];   # blue
-          inactiveBorderColor = [ "#a5adce" ];        # subtext0
-          optionsTextColor = [ "#8caaee" ];           # blue
-          selectedLineBgColor = [ "#414559" ];        # surface0
-          cherryPickedCommitBgColor = [ "#51576d" ];  # surface1
-          cherryPickedCommitFgColor = [ "#babbf1" ];  # lavender
-          unstagedChangesColor = [ "#e78284" ];       # red
-          defaultFgColor = [ "#c6d0f5" ];             # text
+          activeBorderColor = [
+            "#8caaee"
+            "bold"
+          ]; # blue
+          inactiveBorderColor = [ "#a5adce" ]; # subtext0
+          optionsTextColor = [ "#8caaee" ]; # blue
+          selectedLineBgColor = [ "#414559" ]; # surface0
+          cherryPickedCommitBgColor = [ "#51576d" ]; # surface1
+          cherryPickedCommitFgColor = [ "#babbf1" ]; # lavender
+          unstagedChangesColor = [ "#e78284" ]; # red
+          defaultFgColor = [ "#c6d0f5" ]; # text
           searchingActiveBorderColor = [ "#e5c890" ]; # yellow
         };
         authorColors = {

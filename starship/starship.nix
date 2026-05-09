@@ -1,4 +1,4 @@
-{ ... }:
+_:
 # Starship Prompt 設定
 # 旧 starship/.config/starship.toml の内容を programs.starship.settings に Nix 式として移植
 # https://starship.rs/config/
@@ -6,8 +6,7 @@
   programs.starship = {
     enable = true;
 
-    settings =
-    {
+    settings = {
       add_newline = false;
       aws = {
         format = "[[ $symbol ](fg:yellow bg:blue)($profile $region) ]($style)";
@@ -176,7 +175,10 @@
       };
       python = {
         format = "[[ $symbol ](fg:yellow bg:sapphire)($version) ]($style)";
-        python_binary = [ "python" "python3" ];
+        python_binary = [
+          "python"
+          "python3"
+        ];
         style = "fg:surface0 bg:sapphire";
         symbol = " ";
       };
