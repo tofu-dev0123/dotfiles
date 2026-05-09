@@ -25,9 +25,11 @@
     jq
     lua54Packages.luacheck
     nh
+    nixfmt
     railway
     serie
     shellcheck
+    statix
     stylua
   ];
 
