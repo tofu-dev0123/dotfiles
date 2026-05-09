@@ -30,6 +30,19 @@
         editPreset = "nvim";
       };
 
+      # diff 表示を delta に委譲
+      # lazygit 0.61+ では git.paging は git.pagers 配列に変更された
+      # useConfig は git の core.pager しか参照せず、delta は pager.diff 等にしか入らないため
+      # pager を明示する。delta 自体のオプション（line-numbers/navigate 等）は ~/.config/git/config の [delta] から読まれる
+      git = {
+        pagers = [
+          {
+            colorArg = "always";
+            pager = "delta --paging=never";
+          }
+        ];
+      };
+
       # 3. Nix 管理なので lazygit 自身の自動アップデートは無効化
       update = {
         method = "never";
