@@ -57,29 +57,26 @@ jobs:
           done < <(find claude/.claude/skills -name 'SKILL.md')
           exit $failed
 
-  symlink-check:
-    name: Symlink Source Check
+  nix-fmt:
+    name: Nix Format Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check symlink source files exist
+      - uses: cachix/install-nix-action@v30
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Check formatting with nixfmt
         run: |
-          failed=0
-          # Phase 3 (#53) で zsh / git / starship は programs.* に移行したため対象外
-          paths=(
-            "nvim/.config/nvim"
-            "wezterm/.config/wezterm"
-            "claude/.claude/settings.json"
-            "claude/.claude/skills"
-            "claude/.claude/CLAUDE.md"
-            "claude/.claude/statusline-command.sh"
-          )
-          for path in "${paths[@]}"; do
-            if [ ! -e "$path" ]; then
-              echo "ERROR: 存在しません: $path"
-              failed=1
-            else
-              echo "OK: $path"
-            fi
-          done
-          exit $failed
+          # RFC 166 公式フォーマッタ。--check は差分があれば非ゼロ終了
+          nix run nixpkgs#nixfmt -- --check $(find . -name '*.nix' -not -path './.git/*')
+
+  nix-lint:
+    name: Nix Lint (statix)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Run statix
+        run: nix run nixpkgs#statix -- check .
