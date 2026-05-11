@@ -1,6 +1,3 @@
-brew "colima"
-brew "docker"
-brew "docker-compose"
 brew "jenkins-lts", restart_service: :changed
 brew "libpq", link: true
 brew "mysql-client"
