@@ -1,0 +1,91 @@
+# AeroSpace 設定ファイル
+# https://nikitabobko.github.io/AeroSpace/guide
+#
+# キーバインドの基本方針:
+#   - US配列 + Karabiner-Elements なしを前提
+#   - i3wm 流: alt（Option）をモディファイアとして使用
+#   - Vim 風のフォーカス・移動: h / j / k / l
+
+# ログイン時に AeroSpace を自動起動する
+start-at-login = true
+
+# macOS 標準の Mission Control の Spaces を AeroSpace のワークスペースに同期しない
+# （AeroSpace 独自のワークスペースに統一する）
+after-startup-command = []
+after-login-command = []
+
+# レイアウト初期値
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# ウィンドウ間のギャップ（見た目の余白）
+[gaps]
+inner.horizontal = 6
+inner.vertical = 6
+outer.left = 6
+outer.bottom = 6
+outer.top = 6
+outer.right = 6
+
+# モード: メイン
+[mode.main.binding]
+
+# --- フォーカス移動 (Vim風) ---
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# --- ウィンドウ移動 ---
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# --- レイアウト切替 ---
+alt-slash = 'layout tiles horizontal vertical'   # 通常タイル
+alt-comma = 'layout accordion horizontal vertical' # アコーディオン
+
+# --- フルスクリーン / フロート ---
+alt-f = 'fullscreen'
+alt-shift-space = 'layout floating tiling'
+
+# --- ワークスペース切替 ---
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+
+# --- 現在ウィンドウを別ワークスペースへ移動 ---
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+
+# --- 直前のワークスペースへ戻る ---
+alt-tab = 'workspace-back-and-forth'
+
+# --- 設定のリロード ---
+alt-shift-c = 'reload-config'
+
+# --- リサイズモードに入る ---
+alt-r = 'mode resize'
+
+# モード: リサイズ
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'
+
+# --- ワークスペースとモニターの割り当て ---
+# Mac mini（デュアルモニター）と MacBook（単体）の両方で動くように、
+# 1番目のモニターに 1,3 / 2番目のモニターに 2,4 を割り当てる。
+# 単一モニターの場合は全部主モニターに集約される。
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'secondary'
+3 = 'main'
+4 = 'secondary'

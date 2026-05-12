@@ -6,6 +6,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 
 - **Neovim** - テキストエディタ（Lazy.nvim, LSP, Treesitter, Neo-tree 等）
 - **WezTerm** - ターミナルエミュレータ
+- **AeroSpace** - i3 風タイル型ウィンドウマネージャ
 - **Zsh** - シェル設定（エイリアス、fzf 連携等）
 - **Starship** - プロンプト設定
 - **Claude Code** - AI コーディングアシスタント設定
@@ -18,7 +19,7 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | ツール | 管理方式 |
 |---|---|
 | Zsh / Git / Starship / direnv | home-manager (`programs.*`) |
-| Neovim / WezTerm / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
+| Neovim / WezTerm / AeroSpace / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
 | fzf | home-manager (`programs.fzf`)（zsh 統合自動有効化） |
 | cosign / cowsay / eza / gh / jq / lazygit / luacheck / railway / serie / shellcheck / stylua | home-manager (`home.packages`) |
 | GUI / Cask アプリ (1Password / WezTerm 等) | Homebrew (`Brewfile`) |
@@ -105,6 +106,10 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 │       ├── appearance.lua
 │       ├── keybinds.lua
 │       └── tabs.lua
+├── aerospace/
+│   ├── aerospace.nix             # mkOutOfStoreSymlink で ~/.config/aerospace を配置
+│   └── .config/aerospace/        → ~/.config/aerospace/
+│       └── aerospace.toml
 ├── zsh/
 │   ├── zsh.nix                   # programs.zsh 宣言（alias / history / sessionPath / profileExtra）
 │   └── zshrc-extra.sh            # programs.zsh.initContent から readFile で取り込み
@@ -317,7 +322,7 @@ GitHub Actions で以下のチェックを自動実行します（PR・main push
 | ShellCheck | リポジトリ内のシェルスクリプト全般の静的解析 |
 | Luacheck | `nvim/.config/nvim/lua/` 配下の Lua ファイル解析 |
 | SKILL.md Validation | `claude/.claude/skills/**/SKILL.md` のフロントマター検証 |
-| Symlink Source Check | 各ツール配下の `*.nix`（`nvim/nvim.nix` / `wezterm/wezterm.nix` / `claude/claude.nix`）が参照するファイル・ディレクトリの存在確認 |
+| Symlink Source Check | 各ツール配下の `*.nix`（`nvim/nvim.nix` / `wezterm/wezterm.nix` / `aerospace/aerospace.nix` / `claude/claude.nix`）が参照するファイル・ディレクトリの存在確認 |
 
 ## Claude Code カスタムスキル
 
