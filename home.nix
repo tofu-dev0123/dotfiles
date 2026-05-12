@@ -11,6 +11,7 @@
     ./starship/starship.nix
     ./direnv/direnv.nix
     ./lazygit/lazygit.nix
+    ./aerospace/aerospace.nix
   ];
 
   # home.username / home.homeDirectory は flake.nix の mkHome から注入される

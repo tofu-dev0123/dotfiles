@@ -1,0 +1,125 @@
+# AeroSpace 設定ファイル
+# https://nikitabobko.github.io/AeroSpace/guide
+#
+# キーバインドの基本方針:
+#   - US配列 + Karabiner-Elements なしを前提
+#   - i3wm 流: alt（Option）をモディファイアとして使用
+#   - Vim 風のフォーカス・移動: h / j / k / l
+
+# ログイン時に AeroSpace を自動起動する
+start-at-login = true
+
+# macOS 標準の Mission Control の Spaces を AeroSpace のワークスペースに同期しない
+# （AeroSpace 独自のワークスペースに統一する）
+after-startup-command = []
+after-login-command = []
+
+# レイアウト初期値
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# ウィンドウ間のギャップ（見た目の余白）
+[gaps]
+inner.horizontal = 6
+inner.vertical = 6
+outer.left = 6
+outer.bottom = 6
+outer.top = 6
+outer.right = 6
+
+# モード: メイン
+[mode.main.binding]
+
+# --- フォーカス移動 (Vim風) ---
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# --- ウィンドウ移動 ---
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# --- レイアウト切替 ---
+alt-slash = 'layout tiles horizontal vertical'   # 通常タイル
+alt-comma = 'layout accordion horizontal vertical' # アコーディオン
+
+# --- フルスクリーン / フロート ---
+alt-f = 'fullscreen'
+alt-shift-space = 'layout floating tiling'
+
+# --- ワークスペース切替 ---
+# 個人ゾーン: 1〜3 / 会社ゾーン: 4〜7 / 共通: 8〜0
+alt-1 = 'workspace 1'  # 個人 Chrome
+alt-2 = 'workspace 2'  # 個人 WezTerm
+alt-3 = 'workspace 3'  # 個人 その他
+alt-4 = 'workspace 4'  # 会社 Chrome
+alt-5 = 'workspace 5'  # 会社 WezTerm
+alt-6 = 'workspace 6'  # 会社 Slack / Teams
+alt-7 = 'workspace 7'  # 会社 Zoom / その他
+alt-8 = 'workspace 8'  # 雑用
+alt-9 = 'workspace 9'  # フローティング / 一時退避
+alt-0 = 'workspace 10' # 通信・通知系 (Discord 等)
+
+# --- 現在ウィンドウを別ワークスペースへ移動 ---
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+
+# --- 順送り・モニター移動 ---
+# ワークスペース順送り（端まで行くと最初に戻る = wrap-around）
+# 空のワークスペースは飛ばされる
+alt-leftSquareBracket  = 'workspace --wrap-around prev'
+alt-rightSquareBracket = 'workspace --wrap-around next'
+
+# 隣のモニターにフォーカス移動（マルチモニター時のみ意味あり）
+alt-shift-leftSquareBracket  = 'focus-monitor --wrap-around prev'
+alt-shift-rightSquareBracket = 'focus-monitor --wrap-around next'
+
+# 現在のワークスペース全体を隣のモニターへ移動
+alt-ctrl-leftSquareBracket  = 'move-workspace-to-monitor --wrap-around prev'
+alt-ctrl-rightSquareBracket = 'move-workspace-to-monitor --wrap-around next'
+
+# --- 直前のワークスペースへ戻る ---
+alt-tab = 'workspace-back-and-forth'
+
+# --- 設定のリロード ---
+alt-shift-c = 'reload-config'
+
+# --- リサイズモードに入る ---
+alt-r = 'mode resize'
+
+# モード: リサイズ
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'
+
+# --- ワークスペースとモニターの割り当て ---
+# Mac mini（デュアルモニター）の場合:
+#   メイン作業（ブラウザ）= 外部モニター (main)
+#   副作業（ターミナル・通知）= 内蔵モニター (secondary)
+# MacBook（単体モニター）の場合は全部が単一画面に集約される。
+[workspace-to-monitor-force-assignment]
+1 = 'main'        # 個人 Chrome → 外部
+2 = 'secondary'   # 個人 WezTerm → 内蔵
+3 = 'main'        # 個人 その他 → 外部
+4 = 'main'        # 会社 Chrome → 外部
+5 = 'secondary'   # 会社 WezTerm → 内蔵
+6 = 'secondary'   # 会社 Slack → 内蔵
+7 = 'main'        # 会社 Zoom → 外部
+8 = 'main'        # 雑用 → 外部
+9 = 'secondary'   # フロート → 内蔵
+10 = 'secondary'  # 通信通知系 → 内蔵
