@@ -2,6 +2,7 @@
 {
   imports = [
     ./nix/modules/shell-env.nix
+    ./docker/docker.nix
     ./nvim/nvim.nix
     ./wezterm/wezterm.nix
     ./claude/claude.nix

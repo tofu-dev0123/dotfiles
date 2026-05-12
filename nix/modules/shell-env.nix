@@ -21,6 +21,6 @@
     # 言語ランタイム/CLI のキャッシュ・設定を XDG 配下へ
     NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
     GRADLE_USER_HOME = "${config.xdg.dataHome}/gradle";
-    DOCKER_CONFIG = "${config.xdg.configHome}/docker";
+    # DOCKER_CONFIG は docker パッケージ群と併せて docker/docker.nix で管理
   };
 }
