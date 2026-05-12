@@ -75,6 +75,20 @@ alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-0 = 'move-node-to-workspace 10'
 
+# --- 順送り・モニター移動 ---
+# ワークスペース順送り（端まで行くと最初に戻る = wrap-around）
+# 空のワークスペースは飛ばされる
+alt-bracketLeft  = 'workspace --wrap-around prev'
+alt-bracketRight = 'workspace --wrap-around next'
+
+# 隣のモニターにフォーカス移動（マルチモニター時のみ意味あり）
+alt-shift-bracketLeft  = 'focus-monitor --wrap-around prev'
+alt-shift-bracketRight = 'focus-monitor --wrap-around next'
+
+# 現在のワークスペース全体を隣のモニターへ移動
+alt-ctrl-bracketLeft  = 'move-workspace-to-monitor --wrap-around prev'
+alt-ctrl-bracketRight = 'move-workspace-to-monitor --wrap-around next'
+
 # --- 直前のワークスペースへ戻る ---
 alt-tab = 'workspace-back-and-forth'
 
