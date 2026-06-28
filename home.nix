@@ -34,6 +34,7 @@
     shellcheck
     statix
     stylua
+    tea
   ];
 
   # fzf を有効化（programs.zsh と組み合わせて .zshrc に統合コードを自動挿入）
