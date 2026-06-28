@@ -13,5 +13,6 @@
     "supabase@claude-plugins-official": true
   },
   "theme": "auto",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "tui": "fullscreen"
 }
