@@ -1,0 +1,25 @@
+return {
+  "toppair/peek.nvim",
+  ft = { "markdown" },
+  build = "deno task --quiet build:fast",
+  keys = {
+    {
+      "<leader>mp",
+      function()
+        local peek = require("peek")
+        if peek.is_open() then
+          peek.close()
+        else
+          peek.open()
+        end
+      end,
+      ft = "markdown",
+      desc = "Markdown Preview Toggle (peek)",
+    },
+  },
+  config = function()
+    require("peek").setup({
+      app = "browser", -- 既定ブラウザで開く（webview ではなく）
+    })
+  end,
+}

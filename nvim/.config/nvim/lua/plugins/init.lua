@@ -6,7 +6,7 @@ require("lazy").setup({
   { import = "plugins.barbar" },
   { import = "plugins.toggleterm" },
   { import = "plugins.alpha" },
-  { import = "plugins.markdown-preview" },
+  { import = "plugins.peek" },
   { import = "plugins.colorscheme" },
   { import = "plugins.lualine" },
   { import = "plugins.neo-tree" },
