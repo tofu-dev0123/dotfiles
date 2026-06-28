@@ -29,6 +29,7 @@
     lua54Packages.luacheck
     nh
     nixfmt
+    python3Packages.cfn-lint
     railway
     serie
     shellcheck
