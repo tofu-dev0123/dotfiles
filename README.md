@@ -39,6 +39,7 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | LSP 設定 | `plugins/lsp.lua` |
 | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | ステータスライン | `plugins/lualine.lua` |
 | [peek.nvim](https://github.com/toppair/peek.nvim) | Markdown プレビュー（mermaid 対応・要 Deno） | `plugins/peek.lua` |
+| [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Markdown をバッファ内でインラインレンダリング | `plugins/render-markdown.lua` |
 | [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | ファイルエクスプローラー | `plugins/neo-tree.lua` |
 | [vim-rails](https://github.com/tpope/vim-rails) | Rails サポート | `plugins/ruby.lua` |
 | [vim-endwise](https://github.com/tpope/vim-endwise) | Ruby end 自動補完 | `plugins/ruby.lua` |
