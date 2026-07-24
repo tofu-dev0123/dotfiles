@@ -23,6 +23,7 @@
     cosign
     cowsay
     eza
+    fd
     gh
     imagemagick
     jq
