@@ -7,7 +7,7 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 - **Neovim** - テキストエディタ（Lazy.nvim, LSP, Treesitter, Neo-tree 等）
 - **WezTerm** - ターミナルエミュレータ
 - **AeroSpace** - i3 風タイル型ウィンドウマネージャ
-- **Zsh** - シェル設定（エイリアス、fzf 連携等）
+- **Zsh** - シェル設定（エイリアス、fzf 連携、`pj` によるプロジェクトジャンプ等）
 - **Starship** - プロンプト設定
 - **Claude Code** - AI コーディングアシスタント設定
 
@@ -21,7 +21,7 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | Zsh / Git / Starship / direnv | home-manager (`programs.*`) |
 | Neovim / WezTerm / AeroSpace / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
 | fzf | home-manager (`programs.fzf`)（zsh 統合自動有効化） |
-| cosign / cowsay / eza / gh / jq / lazygit / luacheck / railway / serie / shellcheck / stylua | home-manager (`home.packages`) |
+| cosign / cowsay / eza / fd / gh / jq / lazygit / luacheck / railway / serie / shellcheck / stylua | home-manager (`home.packages`) |
 | GUI / Cask アプリ (1Password / WezTerm 等) | Homebrew (`Brewfile`) |
 | プロジェクト固有のランタイム (ruby / node 等) | プロジェクト側 `flake.nix` + direnv（dotfiles では扱わない） |
 
