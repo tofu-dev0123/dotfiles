@@ -23,6 +23,7 @@
     docker-compose
     docker-buildx
     colima
+    lazydocker
   ];
 
   xdg.configFile = {
