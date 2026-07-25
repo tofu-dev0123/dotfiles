@@ -15,7 +15,7 @@ function M.apply(config, wezterm)
     active_titlebar_bg = "none"
   }
   config.window_background_gradient = {
-    colors = { "#1e1e1e" }
+    colors = { "#000000" }
   }
 end
 
