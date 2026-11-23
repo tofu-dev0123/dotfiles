@@ -5,7 +5,6 @@
     ./docker/docker.nix
     ./nvim/nvim.nix
     ./wezterm/wezterm.nix
-    ./claude/claude.nix
     ./zsh/zsh.nix
     ./git/git.nix
     ./starship/starship.nix

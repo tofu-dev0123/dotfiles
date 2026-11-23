@@ -54,7 +54,7 @@ jobs:
               echo "ERROR: description フィールドがありません: $file"
               failed=1
             fi
-          done < <(find claude/.claude/skills -name 'SKILL.md')
+          done < <(find .claude/skills -name 'SKILL.md')
           exit $failed
 
   nix-fmt:
