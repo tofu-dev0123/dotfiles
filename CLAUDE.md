@@ -21,8 +21,8 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 - コアオプションは `nvim/.config/nvim/lua/core/options.lua`、キーマップは `nvim/.config/nvim/lua/core/keymaps.lua`
 - プラグイン追加時は `nvim/.config/nvim/lua/plugins/` に新しい `.lua` ファイルを作成し、README.md のプラグイン一覧も更新する
 
-### Claude Code 設定（`claude/.claude/`）
-- グローバルスキルは `claude/.claude/skills/<name>/SKILL.md` で管理（`~/.claude/skills` へシンボリックリンク）
+### Claude Code 設定
+- `~/.claude`（グローバルの設定・スキル）は dotfiles では扱わない。[conventions](https://github.com/tofu-dev0123/conventions) の `user` ターゲットの sync で配る
 - プロジェクトスキルは `.claude/skills/<name>/SKILL.md` で管理
 - スキルのフォーマット: YAML フロントマター（`description`, `argument-hint`, `allowed-tools`）+ 本文
 
@@ -35,6 +35,6 @@ macOS 向けの開発環境設定ファイル（dotfiles）リポジトリ。シ
 
 - セットアップ（初回）: `nix run home-manager/master -- switch --flake .#komusan -b backup`
 - 通常適用: `home-manager switch --flake .#komusan`
-- PR 作成: `/pr [base-branch]`（`claude/.claude/skills/pr/SKILL.md` に定義済み）
-- Issue 作成: `/issue [topic]`（`claude/.claude/skills/issue/SKILL.md` に定義済み）
+- PR 作成: `/pr [base-branch]`（conventions が配るグローバルスキル）
+- Issue 作成: `/issue [topic]`（conventions が配るグローバルスキル）
 - ローカル CI チェック: `/check`

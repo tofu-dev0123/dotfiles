@@ -50,7 +50,7 @@ while IFS= read -r file; do
     echo "  ERROR: description フィールドがありません: $file"
     skill_failed=1
   fi
-done < <(find claude/.claude/skills -name 'SKILL.md')
+done < <(find .claude/skills -name 'SKILL.md')
 if [ $skill_failed -eq 0 ]; then
   skill_result="[PASS] SKILL.md 検証"
 else

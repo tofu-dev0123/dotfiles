@@ -9,7 +9,6 @@ macOS 向けの開発環境設定ファイル（dotfiles）を管理するリポ
 - **AeroSpace** - i3 風タイル型ウィンドウマネージャ
 - **Zsh** - シェル設定（エイリアス、fzf 連携、`pj` によるプロジェクトジャンプ等）
 - **Starship** - プロンプト設定
-- **Claude Code** - AI コーディングアシスタント設定
 
 ## セットアップ方式
 
@@ -19,11 +18,12 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | ツール | 管理方式 |
 |---|---|
 | Zsh / Git / Starship / direnv | home-manager (`programs.*`) |
-| Neovim / WezTerm / AeroSpace / Claude Code | home-manager (`mkOutOfStoreSymlink`) |
+| Neovim / WezTerm / AeroSpace | home-manager (`mkOutOfStoreSymlink`) |
 | fzf | home-manager (`programs.fzf`)（zsh 統合自動有効化） |
 | cosign / cowsay / eza / fd / gh / jq / lazygit / lazydocker / luacheck / railway / serie / shellcheck / stylua | home-manager (`home.packages`) |
 | GUI / Cask アプリ (1Password / WezTerm 等) | Homebrew (`Brewfile`) |
 | プロジェクト固有のランタイム (ruby / node 等) | プロジェクト側 `flake.nix` + direnv（dotfiles では扱わない） |
+| Claude Code のユーザー設定 (`~/.claude`) | [conventions](https://github.com/tofu-dev0123/conventions) の `user` ターゲットの sync（dotfiles では扱わない） |
 
 ## Neovim プラグイン一覧
 
@@ -114,21 +114,8 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 ├── zsh/
 │   ├── zsh.nix                   # programs.zsh 宣言（alias / history / sessionPath / profileExtra）
 │   └── zshrc-extra.sh            # programs.zsh.initContent から readFile で取り込み
-├── scripts/
-│   └── cleanup-caches.sh        # 開発ツールのキャッシュ一括クリーンアップ
-└── claude/
-    ├── claude.nix                # mkOutOfStoreSymlink で ~/.claude/ 配下を個別にリンク
-    └── .claude/                  # ※ ~/.claude/ 全体は symlink せず、配下を個別にリンク
-        ├── settings.json         → ~/.claude/settings.json
-        ├── CLAUDE.md             → ~/.claude/CLAUDE.md
-        ├── best-practice.md      # CLAUDE.md から @./ で参照
-        ├── statusline-command.sh → ~/.claude/statusline-command.sh
-        └── skills/               → ~/.claude/skills/
-            ├── commit/
-            ├── pr/
-            ├── issue/
-            ├── release/
-            └── ...
+└── scripts/
+    └── cleanup-caches.sh        # 開発ツールのキャッシュ一括クリーンアップ
 ```
 
 ### ミラー型構造の利点
@@ -176,8 +163,6 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 rm -f ~/.config/starship.toml
 rm -rf ~/.config/nvim ~/.config/wezterm ~/.config/zsh ~/.config/git
 rm -f ~/.zshenv
-rm -f ~/.claude/settings.json ~/.claude/CLAUDE.md ~/.claude/statusline-command.sh
-rm -rf ~/.claude/skills
 ```
 
 > 上記はすべてリポジトリ実体への symlink なので削除しても dotfiles 本体には影響しません。
@@ -322,20 +307,15 @@ GitHub Actions で以下のチェックを自動実行します（PR・main push
 |---|---|
 | ShellCheck | リポジトリ内のシェルスクリプト全般の静的解析 |
 | Luacheck | `nvim/.config/nvim/lua/` 配下の Lua ファイル解析 |
-| SKILL.md Validation | `claude/.claude/skills/**/SKILL.md` のフロントマター検証 |
-| Symlink Source Check | 各ツール配下の `*.nix`（`nvim/nvim.nix` / `wezterm/wezterm.nix` / `aerospace/aerospace.nix` / `claude/claude.nix`）が参照するファイル・ディレクトリの存在確認 |
+| SKILL.md Validation | `.claude/skills/**/SKILL.md` のフロントマター検証 |
+| Symlink Source Check | 各ツール配下の `*.nix`（`nvim/nvim.nix` / `wezterm/wezterm.nix` / `aerospace/aerospace.nix`）が参照するファイル・ディレクトリの存在確認 |
 
 ## Claude Code カスタムスキル
 
+このリポジトリ専用のスキル（`.claude/skills/`）。`/commit`・`/pr`・`/issue` などの汎用スキルは conventions が `~/.claude/skills/` に配る。
+
 | スキル | 説明 |
 |---|---|
-| `/commit` | 差分を解析して日本語コミットメッセージを生成・実行 |
-| `/pr [base-branch]` | PR を自動作成（タイトル・本文をコミットから自動生成） |
-| `/issue [topic]` | GitHub Issue を作成（ヒアリング形式） |
-| `/issues` | GitHub のオープン Issue を一覧表示・選択して詳細を確認（実装モードで feature/issue#&lt;番号&gt; ブランチを作成） |
-| `/release` | リリース処理を自動化（ブランチ作成・マージ・タグ付与） |
-| `/f-pr` | Forgejo リポジトリに PR を自動作成 |
-| `/f-issue` | Forgejo リポジトリに Issue を作成 |
-| `/update-readme` | プロジェクトを調査して README を更新 |
-| `/setup-claude-md` | インタビュー形式で CLAUDE.md を対話的に作成 |
+| `/add-nvim-plugin` | Neovim プラグインを追加（Web 検索→プラン作成） |
+| `/opacity` | WezTerm の背景透過率を設定（0〜1） |
 | `/check` | CI と同等のローカルチェックを実行 |

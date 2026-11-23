@@ -7,7 +7,3 @@ result-*
 
 # direnv (Phase 4 で導入予定だが先回り)
 .direnv/
-
-# Claude Code が自動同期するスキル（~/.claude/skills がシンボリックリンクのため）
-claude/.claude/skills/synced/
-claude/.claude/skills/.trash/
