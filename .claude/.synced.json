@@ -1,0 +1,19 @@
+{
+  "source": "conventions@8d47e6a",
+  "target": "dotfiles",
+  "profiles": [
+    "flow-develop"
+  ],
+  "files": {
+    ".claude/.gitignore": "sha256:ced771be89a8b13b6517f27cdcf0c8aadc2e16863cf7be34100eba45572ed1e5",
+    ".claude/hooks/env-guard.sh": "sha256:cb5e765502af48307748d9054b1a7b2d0780141e84d2dccd30a0557a28fc138e",
+    ".claude/hooks/generated-guard.sh": "sha256:5180c80dfb9214e11a815ae002b01fd2ec0e2132b8e729d71f29cea108e900af",
+    ".claude/hooks/no-coauthor.sh": "sha256:3282b9edf30542c640789ea33f7519378470954844608b64e3ab1650391eebf4",
+    ".claude/hooks/protect-branch.sh": "sha256:4c306fbbc5328bcd541dc98b9cb4f94cac823cf7c290dbddacc2ca35e0da296d",
+    ".claude/hooks/sync-check.sh": "sha256:0ef6cfc75465e96a3a1694558e2538eecacd69e3e2f332608d4ac760b853da4f",
+    ".claude/rules/shared/branch-flow.md": "sha256:88ecb157386a97154d22111881aeccb3db487319c5fc29020e7e0814d7c7fad2",
+    ".claude/rules/shared/common.md": "sha256:9afe6e3b150d6ee0edbe9f03c25755193118a93573196f1e4a47cc539f5dc249",
+    ".claude/settings.json": "sha256:2574bf9d3f477c98d8dd3f7f430c3038d4b33ef2ab4cd8e93830b4001b3a4080",
+    ".claude/skills/release/SKILL.md": "sha256:25a794fdfa98290b52e838335b96ec2ea37af648cd4a81b0a4fa00ecd3a40604"
+  }
+}
