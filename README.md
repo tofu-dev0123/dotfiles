@@ -58,7 +58,8 @@ home-manager (Nix) への移行は段階的に進行中で、Phase 1 ([#51](http
 | [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) | カラースキーム（Fox ファミリー） | `plugins/colorscheme.lua` |
 | [rose-pine/neovim](https://github.com/rose-pine/neovim) | カラースキーム（ロー彩度） | `plugins/colorscheme.lua` |
 | [tokyonight.nvim](https://github.com/folke/tokyonight.nvim) | カラースキーム（青系モダン） | `plugins/colorscheme.lua` |
-| [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム（デフォルト） | `plugins/colorscheme.lua` |
+| [vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) | カラースキーム（高コントラスト） | `plugins/colorscheme.lua` |
+| [vscode.nvim](https://github.com/Mofiqul/vscode.nvim) | カラースキーム（VS Code Dark+・デフォルト） | `plugins/colorscheme.lua` |
 | [vim-illuminate](https://github.com/RRethy/vim-illuminate) | カーソル下の単語をハイライト | `plugins/illuminate.lua` |
 | [image.nvim](https://github.com/3rd/image.nvim) | バッファ内画像プレビュー（PNG/JPG/GIF/WebP）。`+`/`-` でズーム、`0` でリセット | `plugins/image.lua` |
 
