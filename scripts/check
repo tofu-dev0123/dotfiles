@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+# CI と同等のローカルチェックをまとめて実行する。
+# 1 件でも失敗すれば非ゼロで終了する。ツールが無いチェックは SKIP する。
+set -uo pipefail
+
+cd "$(dirname "$0")/.." || exit 1
+
+total_failed=0
+results=()
+
+pass() { results+=("[PASS] $1"); }
+skip() { results+=("[SKIP] $1"); }
+fail() {
+  results+=("[FAIL] $1")
+  total_failed=$((total_failed + 1))
+}
+
+# 1. ShellCheck（拡張子なしの scripts/* も対象にする）
+if ! command -v shellcheck &>/dev/null; then
+  skip "ShellCheck"
+else
+  sh_files=$(
+    {
+      find . -name '*.sh' -not -path './.git/*'
+      find scripts -maxdepth 1 -type f -not -name '*.*'
+    } | sort -u
+  )
+  if [ -z "$sh_files" ]; then
+    skip "ShellCheck (対象ファイルなし)"
+  elif echo "$sh_files" | xargs shellcheck; then
+    pass "ShellCheck"
+  else
+    fail "ShellCheck"
+  fi
+fi
+
+# 2. Luacheck
+if ! command -v luacheck &>/dev/null; then
+  skip "Luacheck"
+elif luacheck nvim/.config/nvim/lua/; then
+  pass "Luacheck"
+else
+  fail "Luacheck"
+fi
+
+# 3. SKILL.md フロントマター検証
+skill_failed=0
+while IFS= read -r file; do
+  if ! head -1 "$file" | grep -q '^---$'; then
+    echo "  ERROR: フロントマターがありません: $file"
+    skill_failed=1
+    continue
+  fi
+  if ! awk '/^---$/{f++} f==1' "$file" | grep -q '^name:'; then
+    echo "  ERROR: name フィールドがありません: $file"
+    skill_failed=1
+  fi
+  if ! awk '/^---$/{f++} f==1' "$file" | grep -q '^description:'; then
+    echo "  ERROR: description フィールドがありません: $file"
+    skill_failed=1
+  fi
+done < <(find .claude/skills -name 'SKILL.md')
+if [ $skill_failed -eq 0 ]; then
+  pass "SKILL.md 検証"
+else
+  fail "SKILL.md 検証"
+fi
+
+# 4. nixfmt (RFC 166 公式フォーマッタ) で .nix を検証
+nix_files=$(find . -name '*.nix' -not -path './.git/*' -not -path './result/*')
+if ! command -v nixfmt &>/dev/null; then
+  skip "nixfmt"
+elif [ -z "$nix_files" ]; then
+  skip "nixfmt (.nix ファイルなし)"
+elif echo "$nix_files" | xargs nixfmt --check; then
+  pass "nixfmt"
+else
+  fail "nixfmt (整形が必要: nixfmt **/*.nix)"
+fi
+
+# 5. statix で Nix anti-pattern を検証
+if ! command -v statix &>/dev/null; then
+  skip "statix"
+elif statix check .; then
+  pass "statix"
+else
+  fail "statix (修正: statix fix .)"
+fi
+
+# 6. home-manager build による flake/モジュール検証
+#    symlink 整合性も home.file.*.source の評価で同時にチェックされる
+if ! command -v home-manager &>/dev/null; then
+  skip "home-manager build"
+elif home-manager build --flake .#komusan >/dev/null; then
+  pass "home-manager build"
+  rm -f result
+else
+  fail "home-manager build"
+fi
+
+# サマリ表示
+echo "========================================"
+echo "  ローカルチェック結果"
+echo "========================================"
+printf '%s\n' "${results[@]}"
+echo "========================================"
+if [ $total_failed -eq 0 ]; then
+  echo "すべてのチェックが通過しました ✓"
+else
+  echo "${total_failed} 件のチェックが失敗しました"
+  exit 1
+fi
