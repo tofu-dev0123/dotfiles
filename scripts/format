@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# 編集したファイルを整形する。conventions の run-format.sh が編集のたびに呼ぶ。
+# 引数: リポジトリ直下からの相対パス 1 つ。対象外のファイルは何もしない。
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+file="$1"
+
+case "$file" in
+  *.nix)
+    if command -v nixfmt &>/dev/null; then
+      nixfmt "$file"
+    fi
+    if command -v statix &>/dev/null; then
+      statix fix "$file"
+    fi
+    ;;
+  *) ;;
+esac
