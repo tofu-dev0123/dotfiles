@@ -1,13 +1,19 @@
 return {
-  -- デフォルト
+  -- デフォルト（VS Code Dark+）
   {
-    "bluz71/vim-moonfly-colors",
-    name = "moonfly",
+    "Mofiqul/vscode.nvim",
+    name = "vscode",
     priority = 1000,
     lazy = false,
+    opts = { style = "dark" },
   },
 
   -- 切替候補
+  {
+    "bluz71/vim-moonfly-colors",
+    name = "moonfly",
+    lazy = true,
+  },
   {
     "folke/tokyonight.nvim",
     lazy = true,
