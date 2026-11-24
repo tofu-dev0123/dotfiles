@@ -26,7 +26,11 @@
       "Edit(./.github/ISSUE_TEMPLATE/**)",
       "Edit(./.claude/settings.local.json)",
       "Edit(./.claude/.gitignore)",
-      "Edit(./.claude/skills/release/**)"
+      "Edit(./.claude/skills/release/**)",
+      "Edit(./.claude/skills/feature/**)",
+      "Edit(./.claude/skills/bugfix/**)",
+      "Edit(./.claude/skills/implement/**)",
+      "Edit(./.claude/agents/reviewer.md)"
     ]
   },
   "hooks": {
@@ -69,6 +73,17 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/sync-check.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/run-format.sh"
           }
         ]
       }
