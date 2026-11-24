@@ -5,6 +5,7 @@ function M.apply(config, wezterm)
     "Cascadia Code NF",
     "PlemolJP Console NF", -- 日本語フォールバック
   }
+  config.color_scheme = "Vs Code Dark+ (Gogh)"
   config.font_size = 13.0
   config.line_height = 1.3
   config.window_background_opacity = 1
@@ -13,9 +14,6 @@ function M.apply(config, wezterm)
   config.window_frame = {
     inactive_titlebar_bg = "none",
     active_titlebar_bg = "none"
-  }
-  config.window_background_gradient = {
-    colors = { "#000000" }
   }
 end
 
