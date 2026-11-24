@@ -7,7 +7,6 @@ require("lazy").setup({
   { import = "plugins.toggleterm" },
   { import = "plugins.alpha" },
   { import = "plugins.peek" },
-  { import = "plugins.render-markdown" },
   { import = "plugins.colorscheme" },
   { import = "plugins.lualine" },
   { import = "plugins.neo-tree" },
